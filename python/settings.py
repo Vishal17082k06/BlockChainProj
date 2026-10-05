@@ -24,3 +24,8 @@ def rpc_url() -> str:
 def deployment_file() -> Path:
     override = os.environ.get("DEPLOYMENT_FILE")
     return Path(override) if override else PROJECT_ROOT / "blockchain" / "deployment.json"
+
+
+def merkle_deployment_file() -> Path:
+    override = os.environ.get("MERKLE_DEPLOYMENT_FILE")
+    return Path(override) if override else PROJECT_ROOT / "blockchain" / "merkle_deployment.json"

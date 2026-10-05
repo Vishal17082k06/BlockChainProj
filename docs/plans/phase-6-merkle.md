@@ -657,7 +657,9 @@ If the cross-language test fails, the Python and Solidity hashing rules differ: 
 
 - [ ] **Step 5: Mutation check**
 
-In `merkle.py` change `NODE_PREFIX` to `b"\x02"`: expect the cross-language test to fail while pure-Python tests still pass (proving the contract and Python must agree). Restore.
+Apply each change, confirm with `diff` that the file really changed (a no-op mutation proves nothing), run the Merkle tests, then restore:
+1. In `merkle.py` set `NODE_PREFIX = bytes([2])` (avoid `sed` escapes like `\x02`, which can write a raw NUL byte). Expect the cross-language test AND the pure-Python formula test (which pins the prefix) to fail.
+2. In `merkle_chain.py` make `verify_on_chain` send `list(reversed(proof))`. Expect ONLY the cross-language test to fail: every pure-Python test still passes, which shows that test is the one wired to the real contract.
 
 - [ ] **Step 6: Journal `docs/journal/18-merkle-chain.md`, tick, commit**
 

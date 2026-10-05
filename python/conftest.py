@@ -7,6 +7,7 @@ os.environ["INTEGRITY_SECRET_KEY"] = "test-secret-key-not-for-production"
 import pytest
 
 from chain import Chain, ChainUnavailable
+from merkle_chain import MerkleChain
 import db
 
 
@@ -27,6 +28,25 @@ def chain(_live_chain):
     snapshot = _live_chain.snapshot()
     yield _live_chain
     _live_chain.revert(snapshot)
+
+
+@pytest.fixture(scope="session")
+def _live_merkle_chain():
+    c = MerkleChain()
+    try:
+        c.connect()
+    except (ChainUnavailable, FileNotFoundError) as exc:
+        pytest.skip(f"MerkleRegistry not available ({exc}). Run "
+                    "'npx hardhat run scripts/deploy_merkle.js --network localhost'.")
+    return c
+
+
+@pytest.fixture
+def merkle_chain(_live_merkle_chain):
+    """The real MerkleRegistry on the local chain, rolled back after every test."""
+    snapshot = _live_merkle_chain.snapshot()
+    yield _live_merkle_chain
+    _live_merkle_chain.revert(snapshot)
 
 
 @pytest.fixture

@@ -195,6 +195,13 @@ where it came up (journal step) so you can find the context.
 - **Second-preimage attack (on a Merkle tree)**: passing an internal node off as a
   leaf. Defended by hashing leaves and nodes differently (prefixes) and by fixing
   leaf size. (Step 16)
+- **Cross-language (interoperability) test**: a test where code in one language
+  produces a value and code in another checks it, here Python-built Merkle proofs
+  accepted by the Solidity contract. Catches the two implementations drifting
+  apart. (Step 18)
+- **Batching vs rollback protection**: anchoring a Merkle root per batch is cheap
+  per record, but a batch has no "latest version" rule, so an old record version
+  still verifies against its old batch. Best suited to write-once data. (Step 18)
 - **Defence in depth**: layering protections so no single one is the only thing
   holding the line. The leaf/node prefixes are one: fixed 32-byte leaves already
   block the attack, and the prefixes cover the case where that changes. (Step 16)
