@@ -106,5 +106,12 @@ where it came up (journal step) so you can find the context.
 - **ABI**: a JSON description of a contract's functions. With the address, it
   lets Python or JavaScript call the contract. Saved with the address in
   `deployment.json`. (Step 08)
-- Gas: (to be defined in Phase 4)
+- **Off-chain vs on-chain computation**: work done in our own program (cheap,
+  free) vs work done by the contract (every step costs gas). Moving work
+  off-chain, such as computing the record key in Python, reduces cost. (Step 09)
+- **Indexed event field**: marks a field as a searchable "topic" so programs can
+  filter events by it. Indexed strings are stored only as their hash, so they
+  can't be read back; indexed `bytes32` values can be matched exactly.
+  (Step 09)
+- Gas: (to be defined in Step 10)
 - Merkle tree: (to be defined in Phase 6)

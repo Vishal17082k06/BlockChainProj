@@ -115,11 +115,13 @@ BlockChainProj/   (repository root)
   - Learn: node, account, transaction, gas (free locally), ABI.
 
 ### Phase 4: Gas and events (the "blockchain analysis" content)
-- [ ] **4.1 Gas:** add `hardhat-gas-reporter`; measure `anchorHash` (first vs later versions), `markDeleted`, reads. Compare the PDF's `string recordType` key against a `bytes32` key computed off-chain.
-  - Verify: gas table in the journal with a written conclusion.
+Detailed plan: `docs/plans/phase-4-gas-and-events.md`.
+- [x] **4.1 bytes32 variant (TDD):** experimental `IntegrityRegistryBytes32` contract taking a precomputed key, with 4 tests. Production contract untouched.
+- [ ] **4.2 Gas:** `scripts/measure_gas.js` deploys both designs and prints gas per operation from receipts (we use receipts instead of `hardhat-gas-reporter`: simpler to explain and exact). Compare the PDF's `string recordType` design with the `bytes32` key.
+  - Verify: gas table in the journal with a conclusion written from the measured numbers.
   - Learn: why storage writes dominate cost (PDF 3.6), simple vs proper design.
-- [ ] **4.2 Events:** `scripts/list_anchors.js` rebuilds all anchored (type, id, version, hash) from `HashAnchored` logs only.
-  - Verify: output equals what we anchored, with no database involved.
+- [ ] **4.3 Events (TDD):** `scripts/lib/anchors.js` (`collectAnchors`) rebuilds all anchored records from `HashAnchored` / `RecordMarkedDeleted` logs only, plus a demo script.
+  - Verify: tests pass; output equals what we anchored, with no database involved.
   - Learn: events as on-chain logs; why this is a trustworthier id source than a DB table.
 
 ### Phase 5: Python side (the working module)
