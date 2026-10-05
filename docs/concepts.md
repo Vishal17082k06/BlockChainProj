@@ -10,6 +10,15 @@ where it came up (journal step) so you can find the context.
 - **`.gitignore`**: a list of files git must never track. Secrets (`.env`),
   downloaded packages (`node_modules`) and generated files go here. (Step 01)
 
+## Python tooling
+
+- **Virtual environment (`.venv`)**: a private folder of installed Python
+  packages for one project, so versions never clash with other projects.
+  (Step 04)
+- **Pinning dependencies**: writing exact versions (`web3==8.0.0`) in
+  `requirements.txt` so the project installs identically on any machine, today
+  or in a year. (Step 04)
+
 ## Blockchain basics (filled in from Phase 1 onward)
 
 - **Hash function**: takes any input and produces a fixed-size output (SHA-256:
