@@ -110,7 +110,7 @@ BlockChainProj/   (repository root)
 - [x] **3.2** Implement `IntegrityRegistry.sol` (PDF 8.4) until green.
   - Verify: `npx hardhat test` all passing.
   - Learn: mapping, struct, `onlyOwner`, events, `view`, why `bytes32`.
-- [ ] **3.3** Run `npx hardhat node`, deploy with `scripts/deploy.js`, produce `deployment.json`.
+- [x] **3.3** Run `npx hardhat node`, deploy with `scripts/deploy.js`, produce `deployment.json`.
   - Verify: deploy prints an address.
   - Learn: node, account, transaction, gas (free locally), ABI.
 

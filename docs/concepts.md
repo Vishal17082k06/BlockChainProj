@@ -87,5 +87,24 @@ where it came up (journal step) so you can find the context.
   - *`keccak256`*: Ethereum's hash function.
 - **Event**: a log entry a contract writes into a transaction receipt. Much
   cheaper than storage and searchable later. (Step 07)
+- **Local node**: a blockchain running on your own computer
+  (`npx hardhat node`, at `http://127.0.0.1:8545`). Free, fast, in memory,
+  erased when stopped. (Step 08)
+- **Account / private key**: an account is an address that can send
+  transactions. Its private key signs them, proving they are yours. Hardhat's
+  20 test accounts have publicly known keys and fake ETH; never use them on a
+  real network. (Step 08)
+- **Transaction / block**: a transaction is a signed instruction that changes
+  the chain (including deploying a contract). Transactions are recorded in
+  blocks. (Step 08)
+- **Contract address**: where a deployed contract lives. Derived from the
+  deployer's address and transaction count, so it is predictable, not random.
+  (Step 08)
+- **Chain id**: a number identifying a network (31337 for Hardhat's local
+  chain), so transactions for one network cannot be replayed on another.
+  (Step 08)
+- **ABI**: a JSON description of a contract's functions. With the address, it
+  lets Python or JavaScript call the contract. Saved with the address in
+  `deployment.json`. (Step 08)
 - Gas: (to be defined in Phase 4)
 - Merkle tree: (to be defined in Phase 6)
