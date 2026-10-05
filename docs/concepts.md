@@ -31,6 +31,20 @@ where it came up (journal step) so you can find the context.
   bytecode, the low-level program the blockchain runs, and an ABI, a JSON list
   of the contract's functions that lets Python or JavaScript call it. (Step 05)
 
+## Testing
+
+- **Test-driven development (TDD)**: write a failing test first, then write the
+  minimum code to make it pass. Proves the test really checks something, and
+  the tests describe the required behaviour. (Step 06)
+- **Test fixture (`beforeEach`)**: setup that runs before every test, here
+  deploying a fresh contract so tests cannot interfere with each other.
+  (Step 06)
+- **Revert**: when a contract rejects a transaction (e.g. "Not authorized"),
+  all its changes are undone and the transaction fails. Tests check this with
+  `revertedWith`. (Step 06)
+- **`staticCall`**: runs a state-changing function as a read-only simulation to
+  see what it would return, without sending a real transaction. (Step 06)
+
 ## Blockchain basics (filled in from Phase 1 onward)
 
 - **Hash function**: takes any input and produces a fixed-size output (SHA-256:

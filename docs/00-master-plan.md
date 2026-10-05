@@ -105,7 +105,7 @@ BlockChainProj/   (repository root)
   - Learn: what Hardhat is (compiler + test runner + local chain).
 
 ### Phase 3: Smart contract (TDD, the heart of the project)
-- [ ] **3.1** Write the tests first: the PDF's five (8.5) plus: `getLatest` on unknown record returns zeros; `markDeleted` with nothing anchored reverts; `getVersion` returns history; `HashAnchored` event emitted with right args.
+- [x] **3.1** Write the tests first: the PDF's five (8.5) plus: `getLatest` on unknown record returns zeros; `markDeleted` with nothing anchored reverts; `getVersion` returns history; `HashAnchored` event emitted with right args.
   - Verify: `npx hardhat test` fails (no contract yet).
 - [ ] **3.2** Implement `IntegrityRegistry.sol` (PDF 8.4) until green.
   - Verify: `npx hardhat test` all passing.
