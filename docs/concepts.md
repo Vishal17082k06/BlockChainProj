@@ -113,5 +113,9 @@ where it came up (journal step) so you can find the context.
   filter events by it. Indexed strings are stored only as their hash, so they
   can't be read back; indexed `bytes32` values can be matched exactly.
   (Step 09)
-- Gas: (to be defined in Step 10)
+- **Gas**: the unit that measures the work a transaction makes the network do.
+  Cost in money = gas used x gas price. Writing a new storage slot is by far the
+  most expensive operation (about 22,100 gas each); every transaction also has a
+  21,000 base cost; reading off-chain is free. Our first anchor uses about
+  96-99k gas, mostly storage. (Step 10)
 - Merkle tree: (to be defined in Phase 6)
