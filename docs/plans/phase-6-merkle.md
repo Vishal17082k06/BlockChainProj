@@ -13,7 +13,7 @@
 ## Global Constraints
 
 - **Hash function:** Keccak-256 (Ethereum's native hash, so Solidity can verify proofs cheaply). Leaves are our existing 32-byte HMAC digests.
-- **Domain separation:** leaf node = `keccak256(0x00 || leaf)`; internal node = `keccak256(0x01 || min(a,b) || max(a,b))`. The different prefixes stop an internal node from being passed off as a leaf (a "second preimage" attack).
+- **Domain separation:** leaf node = `keccak256(0x00 || leaf)`; internal node = `keccak256(0x01 || min(a,b) || max(a,b))`. The different prefixes are defence in depth against a "second preimage" attack (passing an internal node off as a leaf). With our fixed 32-byte leaves the attack is already impossible, because a leaf hash covers 33 bytes and an internal node 65; the prefixes would matter for variable-length leaves. The formula test pins them.
 - **Sorted pairs:** the two child hashes are ordered (smaller first, byte-wise) before hashing, so a proof is just a list of sibling hashes with no left/right flags. Consequence: order *within* a pair does not change the root; order across pairs does.
 - **Odd node counts:** an unpaired node is promoted to the next level unchanged. It is never duplicated (duplicating makes `[a,b,c]` and `[a,b,c,c]` share a root, a known Bitcoin flaw).
 - Python and Solidity MUST produce identical roots and accept identical proofs. A cross-language test enforces this (Task 6.3).

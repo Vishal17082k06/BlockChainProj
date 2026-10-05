@@ -186,4 +186,15 @@ where it came up (journal step) so you can find the context.
   most expensive operation (about 22,100 gas each); every transaction also has a
   21,000 base cost; reading off-chain is free. Our first anchor uses about
   96-99k gas, mostly storage. (Step 10)
-- Merkle tree: (to be defined in Phase 6)
+- **Merkle tree**: a tree of hashes. Hash each record, hash pairs together, repeat
+  until one **root** hash remains. Anchoring only the root commits to every record
+  in a single transaction. (Step 16)
+- **Merkle proof (inclusion proof)**: the few "sibling" hashes along one leaf's
+  path to the root. Recomputing upward and matching the root proves that record was
+  in the batch, without revealing the others. About log2(N) hashes long. (Step 16)
+- **Second-preimage attack (on a Merkle tree)**: passing an internal node off as a
+  leaf. Defended by hashing leaves and nodes differently (prefixes) and by fixing
+  leaf size. (Step 16)
+- **Defence in depth**: layering protections so no single one is the only thing
+  holding the line. The leaf/node prefixes are one: fixed 32-byte leaves already
+  block the attack, and the prefixes cover the case where that changes. (Step 16)

@@ -137,9 +137,12 @@ Detailed plan: `docs/plans/phase-4-gas-and-events.md`.
   - Verify: statuses match the PDF's expected outcomes; paste output into the journal.
 
 ### Phase 6: Merkle batching
-- [ ] **6.1** `merkle.py` with tests: root for N leaves, proof for one leaf, proof verifies, tampered leaf fails, odd leaf counts.
-- [ ] **6.2** Add `anchorRoot(bytes32 root, uint256 count)` to the contract with tests; anchor 100 records in one transaction; verify one record with its proof. Compare gas per record with Task 4.1.
-  - Verify: tests pass; gas comparison in the journal.
+Detailed plan: `docs/plans/phase-6-merkle.md`. A separate `MerkleRegistry` contract is used (the tested `IntegrityRegistry` is not modified).
+- [x] **6.1 Merkle tree in Python (TDD):** `merkle.py` with root, proofs, verification; tests cover every size 1-33, tampering, odd counts, ordering, domain separation.
+- [ ] **6.2 `MerkleRegistry` contract (TDD):** `anchorRoot`, `getBatch`, `verify` (on-chain proof check), with Hardhat tests and a deploy script.
+- [ ] **6.3 Python <-> Solidity link:** `MerkleChain(Chain)` plus a cross-language test (Python-built proofs accepted by the contract) and a test documenting that batching loses the latest-version rule.
+- [ ] **6.4 Gas comparison and demo:** N single anchors vs one root; command-line demo.
+  - Verify: gas tables in the journal with conclusions from measured numbers (including the N=1 crossover).
   - Learn: Merkle trees, inclusion proofs, cost vs granularity (PDF 11).
 
 ### Phase 7: Public testnet (Sepolia or Polygon Amoy)
