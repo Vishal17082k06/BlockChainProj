@@ -244,8 +244,8 @@ def verify_proof(leaf: bytes, proof, root: bytes) -> bool:
 - [ ] **Step 4: Run Merkle tests, then the whole Python suite**
 
 Run (from `python/`): `.venv/Scripts/python.exe -m pytest tests/test_merkle.py -q` then `.venv/Scripts/python.exe -m pytest -q`
-Expected: 15 Merkle tests pass (the parametrized test counts 4), so `18 passed` for the file; whole suite `61 passed`.
-Count note: 14 test functions, one parametrized x4, gives 17 test items; if pytest reports a different number, trust pytest's number and record it in the journal.
+Expected: `18 passed` for the file (15 test functions; one is parametrized four ways); whole suite `61 passed` (43 + 18).
+Count note: if pytest reports a different number, trust pytest's number and record it in the journal.
 
 - [ ] **Step 5: Mutation checks (each separately; restore after)**
 
@@ -831,4 +831,4 @@ git commit -m "feat: add Merkle gas comparison and demo"
 - **Placeholders:** none. Test totals that depend on counting parametrized tests are explicitly marked "trust pytest's number" instead of being asserted.
 - **Type consistency:** hashing rules (prefixes, sorted pairs, promotion) are identical in `merkle.py`, `MerkleRegistry.sol` and the JS test helper; names `anchor_root`, `get_batch`, `batch_count`, `verify_on_chain`, `batch_id`, `gas_used` are consistent between `merkle_chain.py`, the tests and the demo; the contract's `anchorRoot`, `getBatch`, `batchCount`, `verify`, `RootAnchored` match the Python calls.
 - **Existing work untouched:** `IntegrityRegistry.sol`, `chain.py`, `integrity.py`, `notes.py` are not edited (only `settings.py` and `conftest.py` gain additions).
-- **Counts:** Hardhat 24 + 10 = 34. Python: 43 existing + Merkle tests (17 items from 14 functions with one 4-way parametrization) + 6 = 66 expected; the plan tells the executor to trust pytest's reported number.
+- **Counts:** Hardhat 24 + 10 = 34. Python: 43 existing + 18 Merkle items (15 functions, one parametrized four ways) + 6 chain tests = 67 expected; the plan tells the executor to trust pytest's reported number.
