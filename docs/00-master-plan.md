@@ -145,16 +145,16 @@ Detailed plan: `docs/plans/phase-6-merkle.md`. A separate `MerkleRegistry` contr
   - Verify: gas tables in the journal with conclusions from measured numbers (including the N=1 crossover).
   - Learn: Merkle trees, inclusion proofs, cost vs granularity (PDF 11).
 
-### Phase 7: Public testnet (Sepolia or Polygon Amoy)
-**Flag before starting:** first use of a real wallet private key and a public network. New throwaway wallet, free test tokens only, key in `.env`. I will explain each command first.
-- [ ] **7.1** Create throwaway wallet, get faucet tokens, add network to `hardhat.config.js` (key from env).
-- [ ] **7.2** Deploy to the testnet; view contract and a transaction on a block explorer.
-  - Verify: explorer shows the contract and an anchored hash.
-- [ ] **7.3** Switch `chain.py` to sign transactions locally with the private key; rerun the demo against the testnet.
+### Phase 7: Public testnet (Sepolia) and Remix
+Detailed plan: `docs/plans/phase-7-sepolia-remix.md`. **Flag:** from Task 7.3 onward this uses a real (throwaway) wallet key and a public network. Two explicit user approvals (GATE A before creating the wallet, GATE B before the first transaction) and a third before connecting MetaMask. The wallet is brand new and holds only free test ETH; the key lives only in the git-ignored `python/.env` and is never displayed.
+- [ ] **7.1 Local signing, guardrail, settings profiles (TDD, no real network):** Python signs transactions with a key; refuses any network not in {local, Sepolia}; chunked event queries from the deployment block.
+- [ ] **7.2 Guardrailed deploy script and Hardhat Sepolia config:** dry run before sending; Sepolia only; writes the deployment block.
+- [ ] **7.3 Throwaway wallet, RPC, faucet, dry run (GATE A).**
+- [ ] **7.4 Deploy to Sepolia and inspect on Etherscan (GATE B).**
+- [ ] **7.5 Run the demo on Sepolia and measure the real cost** (gas price, ETH cost, time).
+- [ ] **7.6 Remix walkthrough:** Remix VM dry run, then MetaMask on Sepolia (user-driven).
+- [ ] **7.7 (optional) Verify source on Etherscan** (needs a free API key).
   - Learn: signing vs node-held accounts, nonces, real gas, confirmation time, why a testnet gives the independence a local node lacks.
-- [ ] **7.4 Remix demo:** open remix.ethereum.org, paste the same `IntegrityRegistry.sol`, compile it, and connect MetaMask (the throwaway wallet, on Sepolia). Deploy a second instance from Remix, then call `anchorHash`, `verify`, `getLatest` using its buttons, and find the transactions on Etherscan.
-  - Verify: `verify` returns true for the anchored hash and false for a changed one, shown in the Remix UI.
-  - Learn: the contract is portable across tools (Hardhat or Remix); the same ABI and bytecode result. Remix is good for a live visual demo, Hardhat for automated tests and scripting.
 
 ### Phase 8: Report and viva
 - [ ] **8.1** Assemble report chapters from the journal (PDF 12.3 mapping); fill the measurements table (`time.perf_counter()`, 20+ runs: hash time, anchor time, verify time, gas); rehearse the 30-second explanation and the Q&A (PDF 12.2).
