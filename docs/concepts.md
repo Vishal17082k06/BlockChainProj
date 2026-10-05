@@ -97,6 +97,15 @@ where it came up (journal step) so you can find the context.
   table/column names come only from a fixed list, so user input can never alter
   the SQL. (Step 14)
 
+## Demo and transactions
+
+- **Nonce (of an account)**: a counter of how many transactions an account has
+  sent. It is part of what a transaction hash is computed from, so rolling the
+  chain back and repeating the same action gives the same hash. (Step 15)
+- **End-to-end demo**: one script that exercises the whole system the way a user
+  or attacker would, from creating a record to detecting each kind of tampering.
+  (Step 15)
+
 ## Blockchain basics (filled in from Phase 1 onward)
 
 - **Hash function**: takes any input and produces a fixed-size output (SHA-256:

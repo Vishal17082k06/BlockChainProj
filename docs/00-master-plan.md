@@ -133,7 +133,7 @@ Detailed plan: `docs/plans/phase-4-gas-and-events.md`.
 - [x] **5.3 Integrity service (TDD):** `db.py` (SQLite `note` + `integrity_log`), tests then `integrity.py` covering: VERIFIED, TAMPERED, MISSING_FROM_DB, DELETED_AUTHORIZED, NOT_ANCHORED, INCONSISTENT, UNAVAILABLE, rollback attack, and the "attacker also edits `integrity_log`" case (still TAMPERED).
   - Verify: `pytest tests/test_integrity.py -v` green.
   - Learn: why the chain is the authority and the DB log is only a convenience.
-- [ ] **5.4 CLI demo:** `demo.py` runs PDF 9.3: create note, verify (green), tamper via SQL, verify (red), legitimate edit on a different note (version 2), silent delete, authorised delete.
+- [x] **5.4 CLI demo:** `demo.py` runs PDF 9.3: create note, verify (green), tamper via SQL, verify (red), legitimate edit on a different note (version 2), silent delete, authorised delete.
   - Verify: statuses match the PDF's expected outcomes; paste output into the journal.
 
 ### Phase 6: Merkle batching
