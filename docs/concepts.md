@@ -70,8 +70,22 @@ where it came up (journal step) so you can find the context.
   Consensus is the shared rule set nodes use to agree on which chain is valid.
   Many independent nodes are what stop a single party rewriting history; one
   local node gives no such protection. (Step 03)
-- Smart contract:
-- Gas:
-- ABI:
-- Event:
-- Merkle tree:
+- **Smart contract**: a program stored on the blockchain. Its code and data are
+  public, it runs exactly as written when someone calls a function, and each
+  call is a recorded transaction. Ours is a tamper-evident registry of hashes.
+  (Step 07)
+- **Solidity building blocks** (Step 07):
+  - *state variable*: data the contract stores permanently on-chain.
+  - *struct*: a bundle of fields, like a row.
+  - *mapping*: a lookup table, like a Python dict.
+  - *modifier*: reusable check run before a function (e.g. `onlyOwner`).
+  - *`msg.sender`*: the account that sent the current transaction.
+  - *`require`*: reverts (undoes) the transaction if a condition is false.
+  - *`view` function*: only reads, so calling it is free.
+  - *`calldata` vs `memory`*: read-only input data (cheaper) vs a modifiable copy.
+  - *`bytes32`*: a fixed 32-byte value; exactly the size of a SHA-256/HMAC hash.
+  - *`keccak256`*: Ethereum's hash function.
+- **Event**: a log entry a contract writes into a transaction receipt. Much
+  cheaper than storage and searchable later. (Step 07)
+- Gas: (to be defined in Phase 4)
+- Merkle tree: (to be defined in Phase 6)
