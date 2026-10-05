@@ -19,6 +19,18 @@ where it came up (journal step) so you can find the context.
   `requirements.txt` so the project installs identically on any machine, today
   or in a year. (Step 04)
 
+## Node.js tooling
+
+- **npm / `package.json` / `package-lock.json`**: npm downloads JavaScript
+  packages. `package.json` lists what we asked for; `package-lock.json` records
+  the exact version of everything installed, so installs are repeatable.
+  (Step 05)
+- **Hardhat**: a tool that compiles Solidity, runs contract tests, and starts a
+  local blockchain with free test accounts. (Step 05)
+- **Compiler / bytecode / ABI**: the compiler (`solc`) turns Solidity source into
+  bytecode, the low-level program the blockchain runs, and an ABI, a JSON list
+  of the contract's functions that lets Python or JavaScript call it. (Step 05)
+
 ## Blockchain basics (filled in from Phase 1 onward)
 
 - **Hash function**: takes any input and produces a fixed-size output (SHA-256:

@@ -100,7 +100,7 @@ BlockChainProj/   (repository root)
 ### Phase 2: Toolchain
 - [x] **2.1** Check/install Node LTS, Python 3.10+, git. Create `python/.venv`. Record versions.
   - Verify: `node -v`, `python --version`.
-- [ ] **2.2** In `blockchain/`: `npm init -y`, `npm install --save-dev hardhat@2`, `npx hardhat init` (JavaScript), delete samples.
+- [x] **2.2** In `blockchain/`: `npm init -y`, `npm install --save-dev hardhat@2`, `npx hardhat init` (JavaScript), delete samples.
   - Verify: `npx hardhat compile` succeeds on the empty project.
   - Learn: what Hardhat is (compiler + test runner + local chain).
 
