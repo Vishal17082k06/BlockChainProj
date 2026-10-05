@@ -16,9 +16,9 @@ writing any real code.
   history reads like this journal.
 
 ## What we did
-- Created `blockchain-integrity/` with `README.md`, `docs/00-master-plan.md`,
+- Created the project files (first inside a `blockchain-integrity/` subfolder, later flattened to the repo root) with `README.md`, `docs/00-master-plan.md`,
   `docs/concepts.md`, `docs/journal/_TEMPLATE.md` and this entry.
-- Added `blockchain-integrity/.gitignore` (secrets, dependencies, generated files).
+- Added `.gitignore` (secrets, dependencies, generated files).
 - Created branch `feat/integrity-module` and committed.
 
 ## Output / evidence

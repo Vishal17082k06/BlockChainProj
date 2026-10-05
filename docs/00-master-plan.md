@@ -60,7 +60,7 @@ Phases 0-6 are fully local (throwaway test accounts, local SQLite, self-generate
 ## File structure (target)
 
 ```
-blockchain-integrity/
+BlockChainProj/   (repository root)
   docs/        00-master-plan.md, concepts.md, journal/NN-*.md   (documentation only)
   experiments/ hash_demo.py, toy_chain.py                        (learning scripts)
   blockchain/
