@@ -127,7 +127,7 @@ Detailed plan: `docs/plans/phase-4-gas-and-events.md`.
 ### Phase 5: Python side (the working module)
 - [x] **5.1 Hashing (TDD):** `tests/test_hashing.py`: determinism; one-char change differs; key order irrelevant; NFC equivalence; naive vs aware datetime; `None` vs `""` differ; the `(1,"23")` vs `(12,"3")` case; missing key raises. Then implement `hashing.py` (PDF 8.9).
   - Verify: `pytest tests/test_hashing.py -v` green.
-- [ ] **5.2 Chain access:** `chain.py` (PDF 8.10): `anchor`, `mark_deleted`, `get_latest`; deployment path resolved from project root. Test fixture uses `evm_snapshot`/`evm_revert` for a clean chain per test.
+- [x] **5.2 Chain access:** `chain.py` (PDF 8.10): `anchor`, `mark_deleted`, `get_latest`; deployment path resolved from project root. Test fixture uses `evm_snapshot`/`evm_revert` for a clean chain per test.
   - Verify: anchor then `get_latest` returns the same hash, version 1.
   - Learn: web3.py, `transact` vs `call`, receipts, events.
 - [ ] **5.3 Integrity service (TDD):** `db.py` (SQLite `note` + `integrity_log`), tests then `integrity.py` covering: VERIFIED, TAMPERED, MISSING_FROM_DB, DELETED_AUTHORIZED, NOT_ANCHORED, INCONSISTENT, UNAVAILABLE, rollback attack, and the "attacker also edits `integrity_log`" case (still TAMPERED).

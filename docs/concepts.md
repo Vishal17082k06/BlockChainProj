@@ -60,6 +60,19 @@ where it came up (journal step) so you can find the context.
 - **Mutation check**: deliberately breaking the code to confirm a test fails.
   Proves the test really guards that behaviour. (Steps 07, 11, 12)
 
+## Talking to the blockchain
+
+- **Call vs transaction**: a call only reads data (free, instant). A transaction
+  changes the chain: it is signed, mined into a block, and costs gas. (Step 13)
+- **Receipt**: the proof a transaction was mined. Holds the block number, gas
+  used and the events the contract emitted. We read the new version number from
+  the receipt's event. (Step 13)
+- **Snapshot / revert**: the dev node can save its whole state and later roll
+  back to it. We use it so every test starts from a clean chain. (Step 13)
+- **Dependency injection (passing the chain in)**: giving a function the object
+  it needs instead of letting it import one globally, so tests can pass a fake or
+  dead one. (Step 13)
+
 ## Blockchain basics (filled in from Phase 1 onward)
 
 - **Hash function**: takes any input and produces a fixed-size output (SHA-256:
