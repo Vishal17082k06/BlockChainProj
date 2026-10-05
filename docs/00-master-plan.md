@@ -120,7 +120,7 @@ Detailed plan: `docs/plans/phase-4-gas-and-events.md`.
 - [x] **4.2 Gas:** `scripts/measure_gas.js` deploys both designs and prints gas per operation from receipts (we use receipts instead of `hardhat-gas-reporter`: simpler to explain and exact). Compare the PDF's `string recordType` design with the `bytes32` key.
   - Verify: gas table in the journal with a conclusion written from the measured numbers.
   - Learn: why storage writes dominate cost (PDF 3.6), simple vs proper design.
-- [ ] **4.3 Events (TDD):** `scripts/lib/anchors.js` (`collectAnchors`) rebuilds all anchored records from `HashAnchored` / `RecordMarkedDeleted` logs only, plus a demo script.
+- [x] **4.3 Events (TDD):** `scripts/lib/anchors.js` (`collectAnchors`) rebuilds all anchored records from `HashAnchored` / `RecordMarkedDeleted` logs only, plus a demo script.
   - Verify: tests pass; output equals what we anchored, with no database involved.
   - Learn: events as on-chain logs; why this is a trustworthier id source than a DB table.
 

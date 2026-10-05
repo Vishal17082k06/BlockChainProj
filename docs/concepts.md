@@ -86,7 +86,14 @@ where it came up (journal step) so you can find the context.
   - *`bytes32`*: a fixed 32-byte value; exactly the size of a SHA-256/HMAC hash.
   - *`keccak256`*: Ethereum's hash function.
 - **Event**: a log entry a contract writes into a transaction receipt. Much
-  cheaper than storage and searchable later. (Step 07)
+  cheaper than storage and searchable later. Contracts cannot read events back;
+  programs outside the chain can. (Step 07, Step 11)
+- **Event log query (`queryFilter`)**: asking the chain for all events of one
+  kind, here every `HashAnchored`, to rebuild history without any database.
+  (Step 11)
+- **Indexer**: a service that copies chain events into a database for fast
+  searching. Scanning all events directly is fine for a prototype but slow at
+  scale. (Step 11)
 - **Local node**: a blockchain running on your own computer
   (`npx hardhat node`, at `http://127.0.0.1:8545`). Free, fast, in memory,
   erased when stopped. (Step 08)
