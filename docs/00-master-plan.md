@@ -139,7 +139,7 @@ Detailed plan: `docs/plans/phase-4-gas-and-events.md`.
 ### Phase 6: Merkle batching
 Detailed plan: `docs/plans/phase-6-merkle.md`. A separate `MerkleRegistry` contract is used (the tested `IntegrityRegistry` is not modified).
 - [x] **6.1 Merkle tree in Python (TDD):** `merkle.py` with root, proofs, verification; tests cover every size 1-33, tampering, odd counts, ordering, domain separation.
-- [ ] **6.2 `MerkleRegistry` contract (TDD):** `anchorRoot`, `getBatch`, `verify` (on-chain proof check), with Hardhat tests and a deploy script.
+- [x] **6.2 `MerkleRegistry` contract (TDD):** `anchorRoot`, `getBatch`, `verify` (on-chain proof check), with Hardhat tests and a deploy script.
 - [ ] **6.3 Python <-> Solidity link:** `MerkleChain(Chain)` plus a cross-language test (Python-built proofs accepted by the contract) and a test documenting that batching loses the latest-version rule.
 - [ ] **6.4 Gas comparison and demo:** N single anchors vs one root; command-line demo.
   - Verify: gas tables in the journal with conclusions from measured numbers (including the N=1 crossover).

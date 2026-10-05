@@ -11,4 +11,5 @@ blockchain/cache/
 
 # Generated per-machine files
 blockchain/deployment.json
+blockchain/merkle_deployment.json
 *.db
