@@ -147,6 +147,9 @@ BlockChainProj/   (repository root)
   - Verify: explorer shows the contract and an anchored hash.
 - [ ] **7.3** Switch `chain.py` to sign transactions locally with the private key; rerun the demo against the testnet.
   - Learn: signing vs node-held accounts, nonces, real gas, confirmation time, why a testnet gives the independence a local node lacks.
+- [ ] **7.4 Remix demo:** open remix.ethereum.org, paste the same `IntegrityRegistry.sol`, compile it, and connect MetaMask (the throwaway wallet, on Sepolia). Deploy a second instance from Remix, then call `anchorHash`, `verify`, `getLatest` using its buttons, and find the transactions on Etherscan.
+  - Verify: `verify` returns true for the anchored hash and false for a changed one, shown in the Remix UI.
+  - Learn: the contract is portable across tools (Hardhat or Remix); the same ABI and bytecode result. Remix is good for a live visual demo, Hardhat for automated tests and scripting.
 
 ### Phase 8: Report and viva
 - [ ] **8.1** Assemble report chapters from the journal (PDF 12.3 mapping); fill the measurements table (`time.perf_counter()`, 20+ runs: hash time, anchor time, verify time, gas); rehearse the 30-second explanation and the Q&A (PDF 12.2).
