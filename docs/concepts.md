@@ -45,6 +45,21 @@ where it came up (journal step) so you can find the context.
 - **`staticCall`**: runs a state-changing function as a read-only simulation to
   see what it would return, without sending a real transaction. (Step 06)
 
+## Application setup
+
+- **Environment variable / `.env` file**: settings (like the secret key) kept
+  outside the source code. A `.env` file holds them locally and is never
+  committed; `.env.example` is a safe template. Real environment variables take
+  priority over the file. (Step 12)
+- **Unicode normalisation (NFC)**: the same visible text can be stored as
+  different bytes (é as one character, or e plus an accent). NFC picks one form
+  so equal-looking text hashes equally. (Step 12)
+- **Golden test**: a test that pins an exact expected output, here the exact
+  canonical bytes of a sample record, so any accidental format change fails
+  loudly. (Step 12)
+- **Mutation check**: deliberately breaking the code to confirm a test fails.
+  Proves the test really guards that behaviour. (Steps 07, 11, 12)
+
 ## Blockchain basics (filled in from Phase 1 onward)
 
 - **Hash function**: takes any input and produces a fixed-size output (SHA-256:

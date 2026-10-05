@@ -1,0 +1,26 @@
+import os
+from pathlib import Path
+
+from dotenv import load_dotenv
+
+PYTHON_DIR = Path(__file__).resolve().parent
+PROJECT_ROOT = PYTHON_DIR.parent
+
+# Real environment variables win over .env (override=False is the default).
+load_dotenv(PYTHON_DIR / ".env")
+
+
+def secret_key() -> bytes:
+    key = os.environ.get("INTEGRITY_SECRET_KEY")
+    if not key:
+        raise RuntimeError("INTEGRITY_SECRET_KEY is not set (see python/.env.example)")
+    return key.encode("utf-8")
+
+
+def rpc_url() -> str:
+    return os.environ.get("CHAIN_RPC_URL", "http://127.0.0.1:8545")
+
+
+def deployment_file() -> Path:
+    override = os.environ.get("DEPLOYMENT_FILE")
+    return Path(override) if override else PROJECT_ROOT / "blockchain" / "deployment.json"
