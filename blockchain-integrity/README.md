@@ -15,9 +15,12 @@ Source design: `Blockchain_Data_Integrity_Verification_Report.pdf` (v1.0).
 | `docs/00-master-plan.md` | The roadmap: phases, tasks, decisions, risks |
 | `docs/concepts.md` | Plain-English explanations of each concept (written as we meet it) |
 | `docs/journal/` | One file per work step: what we did, why, commands, output, what we learned |
+| `experiments/` | Small standalone learning scripts (hash demo, toy blockchain) |
 | `blockchain/` | Hardhat project: contract, tests, deploy script (created in Phase 2) |
-| `backend/` | FastAPI + Python services (created in Phase 4) |
-| `frontend/` | React status badge (created in Phase 11) |
+| `python/` | Hashing, chain access, integrity service, CLI demo and pytest tests (Phase 5) |
+
+Rule: `docs/` holds documentation only. Code lives in `experiments/`,
+`blockchain/` or `python/`.
 
 ## Documentation rule
 

@@ -61,7 +61,8 @@ Phases 0-6 are fully local (throwaway test accounts, local SQLite, self-generate
 
 ```
 blockchain-integrity/
-  docs/ 00-master-plan.md, concepts.md, journal/NN-*.md, experiments/
+  docs/        00-master-plan.md, concepts.md, journal/NN-*.md   (documentation only)
+  experiments/ hash_demo.py, toy_chain.py                        (learning scripts)
   blockchain/
     contracts/IntegrityRegistry.sol
     test/IntegrityRegistry.test.js
@@ -85,14 +86,14 @@ blockchain-integrity/
 
 ### Phase 0: Scaffold
 - [x] **0.1** Folder, README, journal template, this plan.
-- [ ] **0.2** `docs/concepts.md` skeleton, `.gitignore` (`.env`, `node_modules`, `deployment.json`, `__pycache__`, `.venv`, `*.db`), journal `01-setup.md`, create branch, commit.
+- [x] **0.2** `docs/concepts.md` skeleton, `.gitignore` (`.env`, `node_modules`, `deployment.json`, `__pycache__`, `.venv`, `*.db`), journal `01-setup.md`, create branch, commit.
   - Verify: `git status` clean; `.env` ignored.
 
 ### Phase 1: Understand blockchain by building one
-- [ ] **1.1** `docs/experiments/hash_demo.py`: SHA-256 of the PDF's two doctor-appointment strings (expect 61 of 64 hex chars differ), HMAC with a key, and the join-without-separator collision `(1,"23")` vs `(12,"3")`.
+- [x] **1.1** `experiments/hash_demo.py`: SHA-256 of the PDF's two doctor-appointment strings (expect 61 of 64 hex chars differ), HMAC with a key, and the join-without-separator collision `(1,"23")` vs `(12,"3")`.
   - Verify: hashes match the PDF's printed values.
   - Learn: hash, avalanche, HMAC, canonicalisation.
-- [ ] **1.2** `docs/experiments/toy_chain.py`: ~60-line blockchain (index, data, previous hash, simple proof-of-work). Tamper with block 2; `is_valid()` must fail at the broken link.
+- [x] **1.2** `experiments/toy_chain.py`: ~60-line blockchain (index, data, previous hash, simple proof-of-work). Tamper with block 2; `is_valid()` must fail at the broken link.
   - Verify: valid chain returns True; after tampering, the report names the broken block.
   - Learn: chaining, tamper evidence, what nodes and consensus add (PDF 3.3, 3.4), why one local node proves little (PDF 10).
 

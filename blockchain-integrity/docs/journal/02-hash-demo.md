@@ -13,7 +13,7 @@ three ideas. If a hash is just a magic word to you, the rest will feel like
 magic too. Here we see each property happen.
 
 ## What we did
-Wrote `docs/experiments/hash_demo.py` (standard library only) and ran
+Wrote `experiments/hash_demo.py` (standard library only) and ran
 `python hash_demo.py`.
 
 ## Output / evidence

@@ -15,7 +15,7 @@ beyond a single hash, and what its limits are. Our PDF's biggest limitation
 why.
 
 ## What we did
-Wrote `docs/experiments/toy_chain.py`:
+Wrote `experiments/toy_chain.py`:
 - Each block holds `index`, `timestamp`, `data`, `prev_hash`, `nonce`, `hash`.
 - A block's hash covers all its fields (including `prev_hash`).
 - Proof-of-work: a valid hash must start with four zeros, found by trying
