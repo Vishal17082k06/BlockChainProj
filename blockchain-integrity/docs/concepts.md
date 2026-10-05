@@ -25,8 +25,16 @@ where it came up (journal step) so you can find the context.
   form before hashing (sorted keys, no extra spaces, fixed formats), so the same
   record always gives the same bytes and different records never collide by
   accident, e.g. (1,"23") vs (12,"3"). (Step 02)
-- Block / chain:
-- Node / consensus:
+- **Block / chain**: a block bundles some data with the hash of the previous
+  block. Because each block depends on the one before, changing an old block
+  breaks every later link, so history is tamper-evident. (Step 03)
+- **Nonce / proof-of-work**: a nonce is a number a miner keeps changing until
+  the block's hash meets a rule (e.g. starts with four zeros). It makes creating
+  a block costly, so rewriting many blocks is costly too. (Step 03)
+- **Node / consensus**: a node is one computer holding a copy of the chain.
+  Consensus is the shared rule set nodes use to agree on which chain is valid.
+  Many independent nodes are what stop a single party rewriting history; one
+  local node gives no such protection. (Step 03)
 - Smart contract:
 - Gas:
 - ABI:
