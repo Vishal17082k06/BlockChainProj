@@ -195,6 +195,10 @@ where it came up (journal step) so you can find the context.
 - **Second-preimage attack (on a Merkle tree)**: passing an internal node off as a
   leaf. Defended by hashing leaves and nodes differently (prefixes) and by fixing
   leaf size. (Step 16)
+- **Gas amortisation / break-even**: spreading one fixed transaction cost over N
+  records. A Merkle root cost about 115.8k gas whatever N; per-record anchoring
+  cost about 98.7k each. So batching loses at N = 1 and wins from about N = 2
+  upward, saving 88% at N = 10 and 98.8% at N = 100. (Step 19)
 - **Cross-language (interoperability) test**: a test where code in one language
   produces a value and code in another checks it, here Python-built Merkle proofs
   accepted by the Solidity contract. Catches the two implementations drifting
