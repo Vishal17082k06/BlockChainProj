@@ -130,7 +130,7 @@ Detailed plan: `docs/plans/phase-4-gas-and-events.md`.
 - [x] **5.2 Chain access:** `chain.py` (PDF 8.10): `anchor`, `mark_deleted`, `get_latest`; deployment path resolved from project root. Test fixture uses `evm_snapshot`/`evm_revert` for a clean chain per test.
   - Verify: anchor then `get_latest` returns the same hash, version 1.
   - Learn: web3.py, `transact` vs `call`, receipts, events.
-- [ ] **5.3 Integrity service (TDD):** `db.py` (SQLite `note` + `integrity_log`), tests then `integrity.py` covering: VERIFIED, TAMPERED, MISSING_FROM_DB, DELETED_AUTHORIZED, NOT_ANCHORED, INCONSISTENT, UNAVAILABLE, rollback attack, and the "attacker also edits `integrity_log`" case (still TAMPERED).
+- [x] **5.3 Integrity service (TDD):** `db.py` (SQLite `note` + `integrity_log`), tests then `integrity.py` covering: VERIFIED, TAMPERED, MISSING_FROM_DB, DELETED_AUTHORIZED, NOT_ANCHORED, INCONSISTENT, UNAVAILABLE, rollback attack, and the "attacker also edits `integrity_log`" case (still TAMPERED).
   - Verify: `pytest tests/test_integrity.py -v` green.
   - Learn: why the chain is the authority and the DB log is only a convenience.
 - [ ] **5.4 CLI demo:** `demo.py` runs PDF 9.3: create note, verify (green), tamper via SQL, verify (red), legitimate edit on a different note (version 2), silent delete, authorised delete.

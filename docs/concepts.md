@@ -73,6 +73,30 @@ where it came up (journal step) so you can find the context.
   it needs instead of letting it import one globally, so tests can pass a fake or
   dead one. (Step 13)
 
+## Integrity design
+
+- **Anchoring**: computing a record's keyed hash and writing it to the
+  blockchain so the record can be checked later. (Step 14)
+- **Verification statuses**: `VERIFIED`, `TAMPERED`, `MISSING_FROM_DB`,
+  `DELETED_AUTHORIZED`, `NOT_ANCHORED`, `INCONSISTENT`, `UNAVAILABLE`. Each
+  describes a different relationship between the database row and the chain.
+  (Step 14)
+- **Source of truth**: the one place a disagreement is settled. Here it is the
+  chain; the local `integrity_log` is only a convenience copy. (Step 14)
+- **Fail-open vs fail-closed**: when something breaks, either carry on anyway
+  (fail-open) or refuse (fail-closed). We fail open on create (record is saved,
+  shows NOT_ANCHORED) and closed on update and delete (to avoid false alarms and
+  hidden changes). (Step 14)
+- **Verify-before-update guard**: refuse to edit a record that already fails its
+  check, otherwise re-anchoring would bless forged content. (Step 14)
+- **Rollback attack**: restoring an old, previously valid version of a row. Caught
+  because only the latest chain version counts. (Steps 07, 14)
+- **False positive**: reporting `TAMPERED` for a record nobody tampered with. We
+  design to avoid these. (Step 14)
+- **SQL parameterisation / whitelisting**: values go through `?` placeholders and
+  table/column names come only from a fixed list, so user input can never alter
+  the SQL. (Step 14)
+
 ## Blockchain basics (filled in from Phase 1 onward)
 
 - **Hash function**: takes any input and produces a fixed-size output (SHA-256:
