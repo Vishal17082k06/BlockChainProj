@@ -178,7 +178,7 @@ These are the exact messages you will see, from tests we ran on purpose.
 | `Error: listen EADDRINUSE: address already in use 127.0.0.1:8545` when starting the node | A node is already running (maybe a forgotten one) | Find it: `Get-NetTCPConnection -LocalPort 8545 -State Listen` shows the process id. If it is your own old Hardhat node, stop it: `Stop-Process -Id <that id> -Force`. Then start again. |
 | `Cannot run demo: Blockchain node not reachable at http://127.0.0.1:8545` | No node is running | Start Terminal A (section 3A) |
 | `Cannot run demo: No contract at 0x5Fb... The local chain was probably restarted: redeploy.` | The node is running but it is a fresh one with nothing deployed | Run the two deploy commands (section 3B) |
-| pytest says `67 passed` is missing and shows many `skipped` with `Local chain not available` | Same two causes as above, handled politely by the tests | Start the node, then deploy |
+| pytest shows many `skipped` with `Local chain not available` instead of `67 passed` | Same two causes as above, handled politely by the tests | Start the node, then deploy |
 | `INTEGRITY_SECRET_KEY is not set (see python/.env.example)` | The `.env` file is missing | Redo step 3 of section 2 |
 | `HH700: Artifact for contract ... not found` | Contract not compiled / wrong folder | Run commands from the `blockchain` folder; `npx hardhat compile` |
 | `npx : File ... cannot be loaded` or scripts blocked | PowerShell security setting | Use `npx.cmd` instead of `npx`, or run in the VS Code terminal |
