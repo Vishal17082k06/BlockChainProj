@@ -130,6 +130,7 @@ from the deployer's account and its transaction count. Each command also writes 
 | 7 | Rebuild records from events | No | `blockchain`: `npx hardhat run scripts/demo_events.js` | JSON of 2 records |
 | 8 | Hash experiment | No | repo root: `.\python\.venv\Scripts\python.exe experiments\hash_demo.py` | 3 parts |
 | 9 | Toy blockchain | No | repo root: `.\python\.venv\Scripts\python.exe experiments\toy_chain.py` | 4 stages |
+| 10 | Narrated tour of ONE note | **Yes** (and deploy) | repo root: `.\python\.venv\Scripts\python.exe experiments\life_of_a_note.py` | 8 stages, from database row to `TAMPERED` |
 
 Each "cd" is `cd "C:\A Projects\Personal\BlockChainProj\<folder>"`.
 
