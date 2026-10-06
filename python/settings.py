@@ -31,6 +31,20 @@ def merkle_deployment_file() -> Path:
     return Path(override) if override else PROJECT_ROOT / "blockchain" / "merkle_deployment.json"
 
 
+def _clean_private_key(raw: str) -> str:
+    """Accept a key with or without 0x (MetaMask shows it without) and check its shape.
+
+    The error message never contains any part of the value.
+    """
+    key = raw.strip()
+    if key.lower().startswith("0x"):
+        key = key[2:]
+    if len(key) != 64 or any(c not in "0123456789abcdefABCDEF" for c in key):
+        raise RuntimeError("SEPOLIA_PRIVATE_KEY must be 64 hexadecimal characters "
+                           "(with or without a leading 0x)")
+    return "0x" + key
+
+
 def profile(name: str = "local") -> dict:
     """Connection settings for a named network."""
     if name == "local":
@@ -45,5 +59,5 @@ def profile(name: str = "local") -> dict:
         return {"rpc_url": url,
                 "deployment_file": chain_dir / "deployment.sepolia.json",
                 "merkle_deployment_file": chain_dir / "merkle_deployment.sepolia.json",
-                "private_key": key}
+                "private_key": _clean_private_key(key)}
     raise ValueError(f"Unknown network profile: {name!r}")

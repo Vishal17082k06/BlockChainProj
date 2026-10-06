@@ -218,6 +218,14 @@ where it came up (journal step) so you can find the context.
 - **Event log range limit / chunking**: public servers cap how many blocks one
   event query may cover, so we start at the deployment block and ask in chunks.
   (Step 20)
+- **Hardfork / gas schedule**: a network upgrade that can change what operations
+  cost. Sepolia's Glamsterdam upgrade (2026-10-06) made creating permanent data far
+  more expensive (new storage slot about 97,920 gas, contract code 1,530 per byte).
+  Gas numbers from a local test chain only hold for the rules that chain uses.
+  (Step 21)
+- **Dry run / estimated gas**: asking the network what an action WOULD cost without
+  sending it. Our deploy script prints this and only sends when
+  `CONFIRM_DEPLOY=yes`. (Step 21)
 - **Defence in depth**: layering protections so no single one is the only thing
   holding the line. The leaf/node prefixes are one: fixed 32-byte leaves already
   block the attack, and the prefixes cover the case where that changes. (Step 16)

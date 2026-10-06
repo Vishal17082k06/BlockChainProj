@@ -35,6 +35,7 @@ Guardrails built in this phase:
 - The Hardhat in-process network (`--network hardhat`, the default) must never write a deployment file: its addresses exist only in a throwaway chain and would break the Python tests.
 - Gas price and cost figures come only from measurements on Sepolia (balance before minus balance after), never assumed.
 - Facts about faucets and RPC endpoints are "last reported" and must be re-checked on the day: pk910 (browser proof-of-work, no account), QuickNode (once per 12 hours); Alchemy and GetBlock want mainnet ETH and are avoided. Public RPC candidates: `https://ethereum-sepolia-rpc.publicnode.com`, `https://sepolia.drpc.org`.
+- **Sepolia's gas rules changed on 2026-10-06 (Glamsterdam upgrade, EIP-2780 and EIP-8037):** new storage slot 20,000 to about 97,920 gas, contract code 200 to 1,530 gas per byte, plain transfer base cost lower. Hardhat's local chain still uses the old rules, so local gas numbers (Steps 10 and 19) do NOT predict Sepolia costs. Never hard-code gas limits; always take the node's estimate. Measured on 2026-10-07: dry-run estimate for deploying IntegrityRegistry was 6,749,626 gas (local: 964,347).
 - Public RPCs limit `eth_getLogs` ranges, so event queries must start at the deployment block and run in chunks.
 
 ## File structure
@@ -44,9 +45,8 @@ Guardrails built in this phase:
 | `python/settings.py` | add `profile(name)` for `"local"` / `"sepolia"` |
 | `python/chain.py` | signing path (`_send`), `WrongNetwork` guardrail, `for_network`, deployment-block and chunked log queries |
 | `python/merkle_chain.py` | use `_send`, add `for_network` |
-| `python/new_wallet.py` | create a throwaway wallet; writes the key to `.env`, prints only the address |
 | `python/demo.py` | `--network sepolia` mode (unique ids, no rollback, balance before/after, Etherscan links) |
-| `python/tests/test_signing.py`, `test_settings.py`, `test_new_wallet.py` | new tests |
+| `python/tests/test_signing.py`, `test_settings.py` | new tests |
 | `blockchain/hardhat.config.js` | optional `sepolia` network from `.env` |
 | `blockchain/scripts/lib/deploy_contract.js` | shared deploy logic with dry run and guardrails |
 | `blockchain/scripts/deploy.js`, `deploy_merkle.js` | thin wrappers around it |
@@ -565,138 +565,35 @@ git commit -m "feat: add guardrailed deploy script with dry run and Sepolia netw
 
 ---
 
-### Task 7.3: Throwaway wallet, RPC, faucet, dry run  (**GATE A**)
+### Task 7.3: Wallet (created by the USER in MetaMask), RPC, faucet, dry run  (**GATE A**)
 
-**Files:**
-- Create: `python/new_wallet.py`, `python/tests/test_new_wallet.py`
-- Modify: `python/.env.example`; the real `python/.env` (git-ignored) gains two variables
+The user creates the wallet in MetaMask. The agent never sees the seed phrase or the private key: the user puts the key into `python/.env` by editing the file in the editor (not via the terminal, whose history would keep it, and not in chat).
 
-- [ ] **Step 1: Write the failing test**
+- [ ] **Step 1: USER creates a brand-new wallet in MetaMask**
+1. Install MetaMask only from `https://metamask.io` (the official extension; fake copies steal recovery phrases).
+2. Create a NEW wallet protected by a Secret Recovery Phrase (12 words). Write the words on paper, offline. Never photograph, type, paste or share them, except to restore the wallet inside MetaMask itself.
+3. This wallet must be new and must never hold real money. If MetaMask already contains a wallet with real funds, use a separate browser profile for this one.
+4. Turn on test networks in MetaMask settings and select **Sepolia**. Copy the account's public address (starts with `0x`). This address is safe to share.
 
-`python/tests/test_new_wallet.py`:
-```python
-import pytest
-from eth_account import Account
+- [ ] **Step 2: USER funds the wallet from a faucet**
+Re-check the faucet on the day. Last reported: `https://sepolia-faucet.pk910.de/` (enter the address, solve the captcha, "Start Mining" in the browser, claim once you have accumulated at least 0.05 SepoliaETH) and `https://faucet.quicknode.com/ethereum/sepolia` (once per 12 hours). Avoid faucets that demand real ETH on mainnet. A faucet needs ONLY the public address; any site asking for the seed phrase or private key is a scam.
+**How much:** measured dry-run cost for deploying `IntegrityRegistry` on 2026-10-07 was 0.0134 ETH at about 2 gwei (Glamsterdam gas rules, see Global Constraints). Both contracts plus a few demo transactions come to roughly 0.03 ETH, and prices move. Aim for **at least 0.1 SepoliaETH**.
 
-from new_wallet import create_wallet
+- [ ] **Step 3: GATE A. Explain, then wait for "go ahead".**
+Say what will happen: the user exports the private key of THAT ONE ACCOUNT and saves it in `python/.env`, which git ignores. The key can control only that account, which holds only free test ETH. It does not expose the seed phrase or other accounts.
 
+- [ ] **Step 4: USER puts the key in `python/.env`**
+1. MetaMask: three-dot menu of the account, Account details, "Show private key", enter the MetaMask password, copy.
+2. In VS Code open `python/.env` and add a line `SEPOLIA_PRIVATE_KEY=<paste>` (with or without a leading `0x`; both work). Save.
+3. Clear the Windows clipboard history (Win + V, "Clear all") and do not paste the key anywhere else.
+4. The agent appends the non-secret line `SEPOLIA_RPC_URL=https://ethereum-sepolia-rpc.publicnode.com` to `.env` (names only are ever checked, never values).
+5. Verify safely: `git check-ignore -v python/.env` prints a rule; `git status --short` does not list `.env`.
 
-def test_creates_a_key_in_the_env_file_and_returns_only_the_address(tmp_path):
-    env = tmp_path / ".env"
-    env.write_text("OTHER=1")
-    address = create_wallet(env)
-    lines = env.read_text().splitlines()
-    key_line = next(l for l in lines if l.startswith("SEPOLIA_PRIVATE_KEY="))
-    key = key_line.split("=", 1)[1]
-    assert key.startswith("0x") and len(key) == 66
-    assert Account.from_key(key).address == address
-    assert "OTHER=1" in lines                          # existing content preserved
-
-
-def test_refuses_to_overwrite_an_existing_key(tmp_path):
-    env = tmp_path / ".env"
-    env.write_text("SEPOLIA_PRIVATE_KEY=0x" + "22" * 32 + "\n")
-    before = env.read_text()
-    with pytest.raises(RuntimeError):
-        create_wallet(env)
-    assert env.read_text() == before
-
-
-def test_two_wallets_are_different(tmp_path):
-    a = create_wallet(tmp_path / "a.env")
-    b = create_wallet(tmp_path / "b.env")
-    assert a != b
-```
-
-- [ ] **Step 2: Run, confirm failure, implement**
-
-Expected first: `ModuleNotFoundError: No module named 'new_wallet'`.
-
-`python/new_wallet.py`:
-```python
-"""Create a brand-new THROWAWAY wallet for the Sepolia testnet.
-
-Writes SEPOLIA_PRIVATE_KEY to python/.env and prints ONLY the public address.
-Never use a wallet that has ever held real money for this project.
-Run (from python/):  .venv/Scripts/python.exe new_wallet.py
-"""
-import sys
-from pathlib import Path
-
-from eth_account import Account
-
-ENV_PATH = Path(__file__).resolve().parent / ".env"
-
-
-def create_wallet(env_path: Path) -> str:
-    text = env_path.read_text() if env_path.exists() else ""
-    if "SEPOLIA_PRIVATE_KEY=" in text:
-        raise RuntimeError("A SEPOLIA_PRIVATE_KEY already exists in .env; refusing to overwrite it.")
-    account = Account.create()
-    key = account.key.hex()
-    if not key.startswith("0x"):
-        key = "0x" + key
-    with env_path.open("a") as f:
-        if text and not text.endswith("\n"):
-            f.write("\n")
-        f.write(f"SEPOLIA_PRIVATE_KEY={key}\n")
-    return account.address
-
-
-if __name__ == "__main__":
-    try:
-        address = create_wallet(ENV_PATH)
-    except RuntimeError as exc:
-        sys.exit(str(exc))
-    print("New throwaway wallet created. The private key was saved to python/.env (git-ignored).")
-    print("Public address (safe to share, this is what a faucet needs):")
-    print(address)
-```
-Expected: `3 passed`.
-
-- [ ] **Step 3: Update `python/.env.example`**
-
-Append:
-```
-# Sepolia testnet (Phase 7). Use a brand-new throwaway wallet, never a real one.
-# SEPOLIA_PRIVATE_KEY is created by python/new_wallet.py. Do not paste it anywhere.
-SEPOLIA_RPC_URL=https://ethereum-sepolia-rpc.publicnode.com
-# SEPOLIA_PRIVATE_KEY=0x...
-```
-
-- [ ] **Step 4: Commit the tested code (no wallet yet)**
-
-```bash
-git add python/new_wallet.py python/tests/test_new_wallet.py python/.env.example
-git commit -m "feat: add throwaway wallet generator for the testnet"
-```
-
-- [ ] **Step 5: GATE A. Stop and tell the user exactly what will happen next, then wait for "go ahead".**
-
-Say: "Next I will (1) run `new_wallet.py`, which creates a fresh random key and saves it into `python/.env` (git-ignored); the key will not be shown on screen, only the public address. (2) Add the public RPC URL to `.env`. Nothing touches the network and nothing costs anything. The key can only control a wallet that has never held real money. OK to proceed?"
-
-- [ ] **Step 6: After approval, create the wallet and prepare `.env`**
-
-Run (from `python/`): `.venv/Scripts/python.exe new_wallet.py` and note the printed address.
-Append the (non-secret) RPC line: `echo SEPOLIA_RPC_URL=https://ethereum-sepolia-rpc.publicnode.com >> .env`
-Verify safely: `git check-ignore -v .env` prints a rule; `git status --short` does not list `.env`. Do NOT `cat` or print `.env`.
-Confirm the RPC works without any key: from `python/`, a one-line check that `Web3(Web3.HTTPProvider(url)).eth.chain_id == 11155111` (if that endpoint is down, try another listed in Global Constraints and update `.env`).
-
-- [ ] **Step 7: USER: fund the wallet from a faucet**
-
-Give the user these instructions (re-check the faucet pages that day; this list was last reported):
-1. Open the faucet in a normal browser tab. Options reported to need no mainnet balance: pk910 proof-of-work faucet (mines in the browser for roughly 20 minutes, no account) or QuickNode's Sepolia faucet (once per 12 hours). Skip faucets that require real ETH on mainnet.
-2. Paste ONLY the public address printed in Step 6.
-3. Never enter a seed phrase or private key on any site. A faucet that asks for one is a scam.
-4. Wait for the test ETH, then check the balance on `https://sepolia.etherscan.io/address/<the address>`.
-Aim for at least 0.05 SepoliaETH; the dry run in Step 8 shows what a deployment actually needs.
-
-- [ ] **Step 8: Dry run of the deployment (sends nothing)**
-
+- [ ] **Step 5: Dry run (sends nothing)**
 Run (from `blockchain/`): `npx hardhat run scripts/deploy.js --network sepolia`
-Expected: prints contract, network `sepolia (chain id 11155111)`, deployer address (must equal the wallet address), balance, estimated gas, estimated cost, then `Dry run only. Nothing was sent.` If the balance is below the estimate, ask the user to fund more. If the deployer address does not match, stop and investigate.
+Expected: network `sepolia (chain id 11155111)`, **Deployer equal to the address shown in MetaMask** (compare the first and last 4 characters; if different, STOP), the balance the faucet paid, estimated gas (about 6.7 million on the current rules), estimated cost, then `Dry run only. Nothing was sent.`
 
-- [ ] **Step 9: Journal `docs/journal/21-sepolia-deploy.md` (second half: wallet, faucet, dry run output), commit**
+- [ ] **Step 6: Journal `docs/journal/21-sepolia-deploy.md` (second half), commit**
 
 ```bash
 git add docs/journal/21-sepolia-deploy.md
@@ -757,6 +654,7 @@ Run (from `python/`): `.venv/Scripts/python.exe demo.py --network sepolia`
 Expected: the same sequence of statuses as locally (`VERIFIED`, `TAMPERED`, refused update, version 2, `TAMPERED` after rollback, `MISSING_FROM_DB`, summary, `DELETED_AUTHORIZED`). It takes minutes, because each transaction waits for a block (about 12 seconds on Sepolia). Record: total time, total cost in SepoliaETH, number of transactions, and the effective gas price (cost divided by gas used).
 If `verify_all` fails with a log-range error from the public RPC, lower `Chain.LOG_CHUNK` (try 1000, then 500) and record the working value.
 
+- [ ] **Step 2b: Re-measure gas on Sepolia and compare with the local numbers.** Read `gasUsed` from the receipts of the first anchor, a second version of the same record, and one Merkle root (anchored with the same sizes as the local measurement). Put local and Sepolia side by side (local: 98,706 / 81,606 / 115,809). Explain the difference from the new state-creation prices, and say whether the batching conclusion (Step 19) still holds. Measured values only; no assumptions.
 - [ ] **Step 3: Cross-check on Etherscan**
 
 Open two of the printed transaction links. Confirm: `From` is the wallet, `To` is the contract, status success, and the "Input Data" is the anchorHash call. Open the contract's Events/Logs tab and find the `HashAnchored` events.

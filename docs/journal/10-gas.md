@@ -82,3 +82,10 @@ cost (21,000). (See `docs/concepts.md`.)
 (Write this yourself: why is it expensive to write to a blockchain but free to
 read, and why does the PDF store only a hash instead of the whole record? What
 decision did we make about string vs bytes32 and why?)
+
+## UPDATE 2026-10-07: these numbers are for the OLD gas rules
+Everything above was measured on Hardhat's local chain. On 2026-10-06 Sepolia
+activated the Glamsterdam upgrade, which re-priced state creation (a new storage
+slot went from about 22,100 to about 97,920 gas; contract code from 200 to 1,530
+gas per byte). The arithmetic in this entry is correct for the old rules but does
+NOT predict Sepolia. We re-measure on Sepolia in Task 7.5. See Step 21.

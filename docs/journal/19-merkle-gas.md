@@ -103,3 +103,10 @@ Gas amortisation, break-even point, cost per record, proof size growth. (See
 (Write this yourself: at roughly how many records does batching start to pay
 off, why does it cost more at N = 1, and why would you not simply batch
 everything?)
+
+## UPDATE 2026-10-07: measured on the OLD gas rules
+These tables come from Hardhat's local chain. Sepolia now uses re-priced state
+creation (Step 21), so absolute gas numbers, the 88% / 98.8% savings and the
+N = 1 crossover are only guaranteed for the old rules. Batching writes fewer
+storage slots per record, so we EXPECT the saving to hold or grow, but that is a
+prediction until Task 7.5 measures it on Sepolia.
