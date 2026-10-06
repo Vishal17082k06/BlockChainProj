@@ -206,6 +206,18 @@ where it came up (journal step) so you can find the context.
 - **Batching vs rollback protection**: anchoring a Merkle root per batch is cheap
   per record, but a batch has no "latest version" rule, so an old record version
   still verifies against its old batch. Best suited to write-once data. (Step 18)
+- **Private key / address / signing**: a private key is a secret number that
+  controls an account; the address is the public name derived from it. Signing a
+  transaction with the key proves the owner approved it, without revealing the key.
+  On a real network we must sign ourselves; our local node signs for us. (Step 20)
+- **Chain id**: a number identifying a network (1 = Ethereum mainnet, 11155111 =
+  Sepolia, 31337 = local Hardhat). Included in signed transactions so they cannot
+  be replayed on another network; we also check it before signing. (Step 20)
+- **Allow-list guardrail**: refusing everything except a short list of approved
+  options, here networks we are willing to sign on. (Step 20)
+- **Event log range limit / chunking**: public servers cap how many blocks one
+  event query may cover, so we start at the deployment block and ask in chunks.
+  (Step 20)
 - **Defence in depth**: layering protections so no single one is the only thing
   holding the line. The leaf/node prefixes are one: fixed 32-byte leaves already
   block the attack, and the prefixes cover the case where that changes. (Step 16)

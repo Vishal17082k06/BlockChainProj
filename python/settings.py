@@ -29,3 +29,21 @@ def deployment_file() -> Path:
 def merkle_deployment_file() -> Path:
     override = os.environ.get("MERKLE_DEPLOYMENT_FILE")
     return Path(override) if override else PROJECT_ROOT / "blockchain" / "merkle_deployment.json"
+
+
+def profile(name: str = "local") -> dict:
+    """Connection settings for a named network."""
+    if name == "local":
+        return {"rpc_url": rpc_url(), "deployment_file": deployment_file(),
+                "merkle_deployment_file": merkle_deployment_file(), "private_key": None}
+    if name == "sepolia":
+        url = os.environ.get("SEPOLIA_RPC_URL")
+        key = os.environ.get("SEPOLIA_PRIVATE_KEY")
+        if not url or not key:
+            raise RuntimeError("SEPOLIA_RPC_URL and SEPOLIA_PRIVATE_KEY must be set in python/.env")
+        chain_dir = PROJECT_ROOT / "blockchain"
+        return {"rpc_url": url,
+                "deployment_file": chain_dir / "deployment.sepolia.json",
+                "merkle_deployment_file": chain_dir / "merkle_deployment.sepolia.json",
+                "private_key": key}
+    raise ValueError(f"Unknown network profile: {name!r}")
