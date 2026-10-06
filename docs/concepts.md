@@ -226,6 +226,15 @@ where it came up (journal step) so you can find the context.
 - **Dry run / estimated gas**: asking the network what an action WOULD cost without
   sending it. Our deploy script prints this and only sends when
   `CONFIRM_DEPLOY=yes`. (Step 21)
+- **Contract metadata hash**: a small blob Solidity appends to compiled code, holding
+  a hash that depends on the source file's name and path. Two identical contracts can
+  differ only there, so comparisons strip it first. (Step 22)
+- **Reproducible build**: compiling the same source with the same compiler version and
+  settings (EVM version, optimizer) gives byte-identical code. This is what lets us
+  prove a deployed contract is ours. (Step 22)
+- **Deployment verification**: checking the code at an address, the transaction that
+  created it, the network and the owner before trusting it, instead of trusting
+  whatever address someone provides. (Step 22)
 - **Defence in depth**: layering protections so no single one is the only thing
   holding the line. The leaf/node prefixes are one: fixed 32-byte leaves already
   block the attack, and the prefixes cover the case where that changes. (Step 16)

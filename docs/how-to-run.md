@@ -131,6 +131,9 @@ from the deployer's account and its transaction count. Each command also writes 
 | 8 | Hash experiment | No | repo root: `.\python\.venv\Scripts\python.exe experiments\hash_demo.py` | 3 parts |
 | 9 | Toy blockchain | No | repo root: `.\python\.venv\Scripts\python.exe experiments\toy_chain.py` | 4 stages |
 | 10 | Narrated tour of ONE note | **Yes** (and deploy) | repo root: `.\python\.venv\Scripts\python.exe experiments\life_of_a_note.py` | 8 stages, from database row to `TAMPERED` |
+| 11 | Check a deployment is our code | **Yes** (and deploy) | `python`: `.\.venv\Scripts\python.exe check_deployment.py` (add `--network sepolia`) | `MATCHES our compiled code` |
+| 12 | Register a hand-deployed contract | the network it is on | `python`: `.\.venv\Scripts\python.exe register_deployment.py <Contract> <address> <tx hash> --network sepolia` | `Registered. Wrote ...` (see `docs/remix-guide.md`) |
+| 13 | Test values for Remix | No | repo root: `.\python\.venv\Scripts\python.exe experiments\remix_inputs.py` | hashes and a Merkle proof |
 
 Each "cd" is `cd "C:\A Projects\Personal\BlockChainProj\<folder>"`.
 
