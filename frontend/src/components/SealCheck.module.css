@@ -1,0 +1,115 @@
+.seal {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-3);
+  padding: var(--s-4) var(--s-4) var(--s-4) calc(var(--s-4) + 3px);
+  border-radius: var(--r-md);
+  background: var(--panel-sunk);
+  box-shadow: inset 3px 0 0 var(--rule-strong);
+  transition: box-shadow var(--t-med) var(--ease);
+}
+
+.seal[data-state='ok'] {
+  box-shadow: inset 3px 0 0 var(--verified);
+}
+
+.seal[data-state='bad'] {
+  box-shadow: inset 3px 0 0 var(--tampered);
+}
+
+.title {
+  font-size: var(--fs-15);
+  font-weight: 650;
+  letter-spacing: -0.005em;
+}
+
+.sub {
+  margin-top: calc(var(--s-1) * -1);
+  color: var(--muted);
+  font-size: var(--fs-13);
+}
+
+.row {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.rowLabel {
+  color: var(--muted);
+  font-size: var(--fs-12);
+  font-weight: 560;
+  letter-spacing: 0.01em;
+  font-stretch: 92%;
+}
+
+/* 64 characters as 8 groups of 8, drawn as two lines of four groups so the two rows line up. */
+.hash {
+  display: grid;
+  grid-template-columns: repeat(4, max-content);
+  gap: 3px 14px;
+  font-family: var(--font-mono);
+  font-variant-ligatures: none;
+  font-size: 12.5px;
+  font-stretch: 88%;
+  line-height: 1.75;
+  user-select: text;
+}
+
+.group {
+  display: inline-flex;
+}
+
+.ch {
+  display: inline-block;
+  width: 1.02ch;
+  text-align: center;
+  color: var(--faint);
+  border-radius: 3px;
+  transition:
+    background-color var(--t-med) var(--ease),
+    color var(--t-med) var(--ease);
+}
+
+/* An untouched record reads as calm, solid ink on both rows. */
+.seal[data-state='ok'] .ch {
+  color: var(--ink-2);
+}
+
+.diff {
+  color: var(--tampered);
+  background: var(--tampered-bg);
+  font-weight: 650;
+}
+
+.absent {
+  padding: 10px 12px;
+  border: 1px dashed var(--rule-strong);
+  border-radius: var(--r-sm);
+  color: var(--faint);
+  font-size: var(--fs-13);
+}
+
+.caption {
+  font-size: var(--fs-13);
+  font-weight: 600;
+  color: var(--ink-2);
+}
+
+.caption[data-tone='ok'] {
+  color: var(--verified);
+}
+
+.caption[data-tone='bad'] {
+  color: var(--tampered);
+}
+
+.caption[data-tone='warn'] {
+  color: var(--missing);
+}
+
+.note {
+  margin-top: calc(var(--s-2) * -1);
+  color: var(--muted);
+  font-size: var(--fs-12);
+}

@@ -1,0 +1,44 @@
+.stamp {
+  --c: var(--slate);
+  --bg: var(--slate-bg);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 24px;
+  padding: 0 10px 0 7px;
+  border-radius: 999px;
+  background: var(--bg);
+  color: var(--c);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--c) 26%, transparent);
+  font-size: var(--fs-13);
+  font-weight: 600;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.lg {
+  height: 32px;
+  padding: 0 14px 0 11px;
+  gap: 8px;
+  font-size: var(--fs-15);
+}
+
+/* The "press": a quick scale-down with a halo that fades, only when the status changes. */
+.flip {
+  animation: press var(--t-med) var(--ease);
+}
+
+@keyframes press {
+  0% {
+    transform: scale(1.16);
+    box-shadow:
+      inset 0 0 0 1px color-mix(in srgb, var(--c) 26%, transparent),
+      0 0 0 5px color-mix(in srgb, var(--c) 30%, transparent);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow:
+      inset 0 0 0 1px color-mix(in srgb, var(--c) 26%, transparent),
+      0 0 0 0 color-mix(in srgb, var(--c) 0%, transparent);
+  }
+}

@@ -25,6 +25,11 @@ export interface NetworkInfo {
   explorer: string | null
 }
 
+export interface Pulse {
+  blockNumber: number
+  balanceEth: string
+}
+
 export interface RecordRow {
   id: number
   content: string | null

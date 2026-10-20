@@ -25,7 +25,7 @@ export interface RunState {
 }
 
 export type RunAction =
-  | { type: 'start'; kind: WriteKind }
+  | { type: 'start'; kind: WriteKind; noteId?: number }
   | { type: 'event'; event: StageEvent }
   | { type: 'reset' }
 
@@ -75,6 +75,7 @@ export function runReducer(state: RunState, action: RunAction): RunState {
       ...initialRun,
       phase: 'running',
       kind: action.kind,
+      noteId: action.noteId ?? null,
       steps: ids.map((id, i): Step => ({ id, status: i === 0 ? 'active' : 'pending' })),
     }
   }

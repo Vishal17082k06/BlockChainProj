@@ -28,6 +28,12 @@ describe('runReducer', () => {
     expect(status(s)).toEqual(['saved:active', 'fingerprint:pending', 'sent:pending', 'mined:pending'])
   })
 
+  it('start remembers which note is being worked on, so it can be named while it runs', () => {
+    const s = runReducer(initialRun, { type: 'start', kind: 'edit', noteId: 12 })
+    expect(s.noteId).toBe(12)
+    expect(runReducer(initialRun, { type: 'start', kind: 'create' }).noteId).toBeNull()
+  })
+
   it('moves the active step forward as each real event arrives', () => {
     let s = runReducer(initialRun, { type: 'start', kind: 'create' })
     s = feed(s, ev({ stage: 'saved', noteId: 7, t: 10 }))

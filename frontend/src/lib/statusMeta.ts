@@ -1,6 +1,6 @@
+import type { IconName } from '../components/icons'
 import type { Status } from './types'
 
-export type IconName = 'check' | 'alert' | 'gap' | 'removed' | 'dash' | 'conflict' | 'offline'
 export type Tone = 'ok' | 'bad' | 'warn' | 'neutral'
 
 export interface StatusMeta {

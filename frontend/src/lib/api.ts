@@ -5,6 +5,7 @@ import type {
   AttackResult,
   NetworkId,
   NetworkInfo,
+  Pulse,
   RecordDetail,
   RecordRow,
   RecordsResponse,
@@ -69,6 +70,7 @@ const JSON_HEADERS = { 'content-type': 'application/json' }
 
 export const api = {
   networks: () => getJson<NetworkInfo[]>('/api/networks'),
+  pulse: (net: NetworkId) => getJson<Pulse>(`/api/${net}/pulse`),
   records: (net: NetworkId) => getJson<RecordsResponse>(`/api/${net}/records`),
   record: (net: NetworkId, id: number) => getJson<RecordDetail>(`/api/${net}/records/${id}`),
   verifyAll: (net: NetworkId) =>

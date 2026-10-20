@@ -52,6 +52,12 @@ describe('reads', () => {
     expect(fetchMock.mock.calls[1][0]).toBe('/api/local/records/4')
   })
 
+  it('polls the cheap pulse endpoint for one network', async () => {
+    fetchMock.mockResolvedValue(json({ blockNumber: 12, balanceEth: '0.033379' }))
+    expect(await api.pulse('sepolia')).toEqual({ blockNumber: 12, balanceEth: '0.033379' })
+    expect(fetchMock.mock.calls[0][0]).toBe('/api/sepolia/pulse')
+  })
+
   it('posts verify-all', async () => {
     fetchMock.mockResolvedValue(json({ summary: {}, results: [] }))
     await api.verifyAll('local')
