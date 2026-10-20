@@ -1,0 +1,15 @@
+# Secrets: never commit these
+.env
+
+# Dependencies and build output
+node_modules/
+.venv/
+__pycache__/
+*.pyc
+blockchain/artifacts/
+blockchain/cache/
+
+# Generated per-machine files
+blockchain/deployment.json
+blockchain/merkle_deployment.json
+*.db
