@@ -139,13 +139,13 @@ docs/journal/24-console-api.md, 25-console-ui.md; docs/how-to-run.md (new sectio
 
 # Part B: the frontend
 
-### Task 9.1: Scaffold, tokens, fonts
+### Task 9.1 (done): Scaffold, tokens, fonts
 
 **Files:** `frontend/*` scaffold (Vite React TypeScript), `src/styles/tokens.css`, `base.css`.
 Install: react, react-dom, `@tanstack/react-query`, the two fontsource-variable packages, and dev: vitest, jsdom, `@testing-library/react`, `@testing-library/jest-dom`, `@testing-library/user-event`. Tokens exactly as spec 5.1 as CSS custom properties; base styles (reset, focus ring, reduced-motion, type scale). `vite.config.ts` proxies `/api` to `http://127.0.0.1:8000`.
 **Verify:** `npm run build` succeeds; a blank page renders the fonts offline. **Commit:** `feat: scaffold the console frontend`.
 
-### Task 9.2: Logic modules (TDD, no UI)
+### Task 9.2 (done): Logic modules (TDD, no UI)
 
 **Interfaces and tests (write first):**
 - `diffHex(chain: string|null, database: string|null) -> {chars: [{c: string, same: boolean}][2], differing: number, total: 64, identical: boolean}`: handles `0x` prefixes and case; identical gives 0 differing; two unrelated hashes differ in about 60 of 64; either side null gives `identical: false` with all marked different; mismatched lengths handled without throwing.
@@ -156,36 +156,36 @@ Install: react, react-dom, `@tanstack/react-query`, the two fontsource-variable 
 - `api.ts`: typed fetchers; the NDJSON writer returns an async iterator; HTTP 409 maps to `BUSY`, 422 to `INVALID`.
 **Commit:** `feat: console logic modules with tests`.
 
-### Task 9.3: Shell
+### Task 9.3 (done): Shell
 
 `Header`, `NetworkSwitch` (disabled segment shows the reason), `ChainPulse` (polls the block number; fades on change; announces politely), `NetworkStrip`. `App` holds the selected network and selected record. States: loading and error for `/networks`.
 **Acceptance:** switching network refetches records; Sepolia unavailable shows its reason; the strip colour differs per network. Component tests for NetworkSwitch and ChainPulse.
 
-### Task 9.4: Ledger
+### Task 9.4 (done): Ledger
 
 `Composer`, `SummaryBar` (segmented proportional bar plus counts and Verify all), `Ledger`, `RecordRow`, `StatusStamp`, `EmptyState`, `ErrorNotice`. Skeleton rows while loading. Ghost rows (chain-only) styled distinctly with "not in database".
 **Acceptance:** all seven statuses render with icon, word and colour; keyboard selection with arrow keys and Enter; stamp animation only when status changes (not on first paint). Tests for StatusStamp (every status), Ledger states.
 
-### Task 9.5: Inspector
+### Task 9.5 (done): Inspector
 
 `Inspector`, `SealCheck` (uses `diffHex`; 8 groups of 8; matched muted, differing marked; caption with the real count), `VersionTimeline` (version, hash, time, tx hash with copy and Etherscan link on Sepolia, block, gas/fee when known).
 **Acceptance:** SealCheck for identical and tampered inputs matches `diffHex` counts; copy buttons announce "Copied"; no selection shows the instruction. Tests for SealCheck.
 
-### Task 9.6: Writes and the activity tape
+### Task 9.6 (done): Writes and the activity tape
 
 `useWrite` consumes the NDJSON stream into `stageReducer`; `StageStepper` (real stages, elapsed time, current-stage pulse, `aria-live`); `ActivityTape` (bottom feed of real events across the session, newest first, mono). Composer, edit and delete controls disable while busy; BUSY from the API is shown plainly.
 **Acceptance:** a simulated stream renders each stage as its event arrives; failure shows the code's plain-language message; after `done` the ledger and inspector refresh. Tests with a mocked stream.
 
-### Task 9.7: Attack lab
+### Task 9.7 (done): Attack lab
 
 Dark drawer opened from the inspector: Silent edit (text field), Silent delete, Restore earlier text, Cover my tracks (checkbox with a one-line explanation), result line, and automatic verify-all after each attack so the status flip is visible. Focus is trapped while open; Esc closes.
 **Acceptance:** each action calls the right endpoint and the row flips status with the stamp animation; restore with no history shows the API's plain message.
 
-### Task 9.8: Polish and visual critique
+### Task 9.8 (done): Polish and visual critique
 
 Responsive layouts (inspector slide-over below 1100px, cards below 700px); reduced motion; contrast check of every token pair against WCAG AA; copy pass against spec 5.5. Take screenshots with a headless browser at 1440x900, 1024x768 and 390x844 for each key state, review them against the spec and the three-defaults critique, and fix what is weak. Record findings in the journal.
 
-### Task 9.9: End to end
+### Task 9.9 (done): End to end
 
 Build the app, start the node, deploy, run `run_ui.py`, and drive the real story in a headless browser: create two notes, verify, silent edit shows Tampered and a lit Seal check, legitimate edit refused, rollback, silent delete, verify-all, cover-tracks variant, network toggle with Sepolia read-only. Save screenshots (outside the repo), journal `25-console-ui.md`, update `docs/how-to-run.md`, run every suite, commit and (only if the user asks) push.
 

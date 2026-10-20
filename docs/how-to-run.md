@@ -225,8 +225,14 @@ catch it, with real transaction hashes and block numbers. Works on the local cha
    ```powershell
    .\.venv\Scripts\python.exe run_ui.py
    ```
-3. Open **http://127.0.0.1:8000** in your browser (once the frontend is built, see
-   `frontend/README.md`). Until then `http://127.0.0.1:8000/api/docs` shows the API.
+3. Build the frontend once (and again after changing it), from the `frontend` folder:
+   ```powershell
+   npm install
+   npm run build
+   ```
+4. Open **http://127.0.0.1:8000** in your browser. (`http://127.0.0.1:8000/api/docs` shows the raw API.)
+
+To work on the interface itself, see `frontend/README.md`.
 
 Notes:
 - It listens on `127.0.0.1` only, so nothing outside your computer can reach the Attack lab.

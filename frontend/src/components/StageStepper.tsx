@@ -50,7 +50,7 @@ export function StageStepper({ run, network, onDismiss }: Props) {
       : 'Failed'
 
   const detail = (id: StepId): string | null => {
-    if (id === 'fingerprint' && run.fingerprint) return shortHash(run.fingerprint, 8, 0).replace('…', '')
+    if (id === 'fingerprint' && run.fingerprint) return shortHash(run.fingerprint, 8, 0)
     if (id === 'sent' && run.txHash) return shortHash(run.txHash)
     if (id === 'mined' && run.block !== null) return `block ${formatBlock(run.block)}`
     return null

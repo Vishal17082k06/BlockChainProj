@@ -38,5 +38,6 @@ export function formatElapsed(ms: number): string {
 
 export function shortHash(hash: string, head = 6, tail = 4): string {
   if (hash.length <= head + tail + 1) return hash
-  return `${hash.slice(0, head)}…${hash.slice(-tail)}`
+  // slice(-0) would return the whole string, so a zero-length tail is handled on its own.
+  return `${hash.slice(0, head)}…${tail > 0 ? hash.slice(-tail) : ''}`
 }

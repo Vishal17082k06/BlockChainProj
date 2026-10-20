@@ -50,6 +50,10 @@ describe('shortHash', () => {
     expect(shortHash(tx, 10, 6)).toBe('0x69acef31…376a43')
   })
 
+  it('shows only the start when no tail is asked for', () => {
+    expect(shortHash(tx, 8, 0)).toBe('0x69acef…')
+  })
+
   it('leaves a short value alone', () => {
     expect(shortHash('0xabc')).toBe('0xabc')
   })
