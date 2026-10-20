@@ -67,8 +67,12 @@ class Chain:
             self._w3 = self._contract = None
             raise ChainUnavailable(f"Blockchain node error: {exc}") from exc
 
-    def _send(self, w3, call):
-        """Send one contract call as a transaction. Returns (tx_hash, receipt)."""
+    def _send(self, w3, call, on_sent=None):
+        """Send one contract call as a transaction. Returns (tx_hash, receipt).
+
+        `on_sent(tx_hash_hex)` is called as soon as the transaction has been sent, BEFORE we
+        wait for it to be mined, so a caller can show the hash while the network works.
+        """
         if self._private_key is None:
             # Dev node only: its first account is unlocked and is the contract owner.
             tx_hash = call.transact({"from": w3.eth.accounts[0]})
@@ -80,23 +84,35 @@ class Chain:
             })
             signed = account.sign_transaction(tx)
             tx_hash = w3.eth.send_raw_transaction(signed.raw_transaction)
+        if on_sent is not None:
+            on_sent(w3.to_hex(tx_hash))
         return tx_hash, w3.eth.wait_for_transaction_receipt(tx_hash, timeout=300)
 
-    def anchor(self, record_type, record_id, digest):
+    @staticmethod
+    def _cost(receipt):
+        """Gas used and the exact fee in wei, from the receipt (never an estimate)."""
+        return {"gas_used": receipt["gasUsed"],
+                "fee_wei": receipt["gasUsed"] * receipt["effectiveGasPrice"]}
+
+    def anchor(self, record_type, record_id, digest, on_sent=None):
         def act(w3, contract):
             tx_hash, receipt = self._send(
-                w3, contract.functions.anchorHash(record_type, record_id, digest))
+                w3, contract.functions.anchorHash(record_type, record_id, digest), on_sent)
             events = contract.events.HashAnchored().process_receipt(receipt)
             return {
                 "tx_hash": w3.to_hex(tx_hash),
                 "block_number": receipt["blockNumber"],
                 "version": events[0]["args"]["version"],
+                **self._cost(receipt),
             }
         return self._run(act)
 
-    def mark_deleted(self, record_type, record_id):
+    def mark_deleted(self, record_type, record_id, on_sent=None):
         def act(w3, contract):
-            self._send(w3, contract.functions.markDeleted(record_type, record_id))
+            tx_hash, receipt = self._send(
+                w3, contract.functions.markDeleted(record_type, record_id), on_sent)
+            return {"tx_hash": w3.to_hex(tx_hash), "block_number": receipt["blockNumber"],
+                    **self._cost(receipt)}
         return self._run(act)
 
     def get_latest(self, record_type, record_id):
@@ -117,6 +133,45 @@ class Chain:
                 logs = contract.events.HashAnchored().get_logs(from_block=low, to_block=high)
                 found |= {(e["args"]["recordType"], e["args"]["recordId"]) for e in logs}
             return found
+        return self._run(act)
+
+    def _logs(self, event, w3):
+        """Every log of one event type, read in chunks from the deployment block."""
+        latest = w3.eth.block_number
+        for low in range(self._deployment_block, latest + 1, self.LOG_CHUNK):
+            high = min(low + self.LOG_CHUNK - 1, latest)
+            yield from event.get_logs(from_block=low, to_block=high)
+
+    def history(self, record_type, record_id):
+        """Everything the chain remembers about one record, from event logs only."""
+        def act(w3, contract):
+            def mine(entry):
+                return (entry["args"]["recordType"] == record_type
+                        and entry["args"]["recordId"] == record_id)
+
+            versions = [
+                {"version": e["args"]["version"], "hash": bytes(e["args"]["hash"]),
+                 "timestamp": e["args"]["timestamp"], "tx_hash": w3.to_hex(e["transactionHash"]),
+                 "block_number": e["blockNumber"]}
+                for e in self._logs(contract.events.HashAnchored(), w3) if mine(e)
+            ]
+            versions.sort(key=lambda v: v["version"])
+            deletion = next(
+                ({"tx_hash": w3.to_hex(e["transactionHash"]), "block_number": e["blockNumber"],
+                  "timestamp": e["args"]["timestamp"]}
+                 for e in self._logs(contract.events.RecordMarkedDeleted(), w3) if mine(e)),
+                None)
+            return {"versions": versions, "deleted": deletion}
+        return self._run(act)
+
+    def status(self):
+        """Live facts about the chain and the wallet this object signs with."""
+        def act(w3, contract):
+            wallet = (w3.eth.account.from_key(self._private_key).address
+                      if self._private_key is not None else w3.eth.accounts[0])
+            return {"chain_id": w3.eth.chain_id, "block_number": w3.eth.block_number,
+                    "wallet": wallet, "balance_wei": w3.eth.get_balance(wallet),
+                    "owner": contract.functions.owner().call()}
         return self._run(act)
 
     # Development-node helpers (used by tests to reset state between tests).
