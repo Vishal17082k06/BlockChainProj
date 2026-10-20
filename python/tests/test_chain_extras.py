@@ -39,6 +39,14 @@ def test_mark_deleted_returns_its_transaction_details(chain):
     assert chain.get_latest("note", 1)["is_deleted"] is True
 
 
+def test_address_is_the_deployed_contract_address(chain):
+    import json
+    import settings
+    expected = json.loads(settings.deployment_file().read_text())["address"]
+    assert Chain(rpc_url=None).address is None            # not connected yet
+    assert chain.address == expected
+
+
 def test_history_lists_versions_in_order_with_their_transactions(chain):
     first = chain.anchor("note", 1, H1)
     second = chain.anchor("note", 1, H2)

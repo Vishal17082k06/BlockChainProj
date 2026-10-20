@@ -29,6 +29,11 @@ class Chain:
         self._w3 = None
         self._contract = None
 
+    @property
+    def address(self):
+        """The deployed contract's address once connected, else None."""
+        return self._contract.address if self._contract is not None else None
+
     @classmethod
     def for_network(cls, name="local"):
         p = settings.profile(name)
