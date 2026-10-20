@@ -156,8 +156,13 @@ Detailed plan: `docs/plans/phase-7-sepolia-remix.md`. **Flag:** from Task 7.3 on
 - [ ] **7.7 (optional) Verify source on Etherscan** (needs a free API key).
   - Learn: signing vs node-held accounts, nonces, real gas, confirmation time, why a testnet gives the independence a local node lacks.
 
-### Phase 8: Report and viva
-- [ ] **8.1** Assemble report chapters from the journal (PDF 12.3 mapping); fill the measurements table (`time.perf_counter()`, 20+ runs: hash time, anchor time, verify time, gas); rehearse the 30-second explanation and the Q&A (PDF 12.2).
+### Phase 8: Demo console (frontend)
+Detailed plan: `docs/plans/phase-8-demo-console.md`; design: `docs/specs/2026-10-21-demo-console-design.md`.
+- [ ] **8.1-8.6 API (FastAPI):** chain history and progress hooks, stage streaming, read, write and Attack lab endpoints, runner.
+- [ ] **9.1-9.9 Frontend (React + TypeScript):** tokens and fonts, logic modules, shell, ledger, inspector with the Seal check, live activity tape, Attack lab, polish with screenshot critique, end-to-end run.
+
+### Phase 9: Report and viva
+- [ ] **9.1 (report)** Assemble report chapters from the journal (PDF 12.3 mapping); fill the measurements table (`time.perf_counter()`, 20+ runs: hash time, anchor time, verify time, gas); rehearse the 30-second explanation and the Q&A (PDF 12.2).
 
 ---
 
