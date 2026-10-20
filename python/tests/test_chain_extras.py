@@ -1,4 +1,6 @@
-from chain import Chain
+import pytest
+
+from chain import Chain, TransactionFailed
 
 H1 = bytes(range(32))
 H2 = bytes(range(1, 33))
@@ -37,6 +39,23 @@ def test_mark_deleted_returns_its_transaction_details(chain):
     assert set(result) == {"tx_hash", "block_number", "gas_used", "fee_wei"}
     assert sent == [result["tx_hash"]]
     assert chain.get_latest("note", 1)["is_deleted"] is True
+
+
+def test_a_transaction_mined_with_a_failed_status_is_reported_not_misread(chain, monkeypatch):
+    # On a real network a transaction can be mined and still fail (for example out of gas).
+    # The dev node never records one, so hand back a real receipt whose status says "failed".
+    w3 = chain.connect()[0]
+    real = w3.eth.wait_for_transaction_receipt
+
+    def failed(tx_hash, **kwargs):
+        receipt = dict(real(tx_hash, **kwargs))
+        receipt["status"] = 0
+        return receipt
+
+    monkeypatch.setattr(w3.eth, "wait_for_transaction_receipt", failed)
+    with pytest.raises(TransactionFailed) as info:
+        chain.anchor("note", 1, H1)
+    assert info.value.tx_hash.startswith("0x") and len(info.value.tx_hash) == 66
 
 
 def test_address_is_the_deployed_contract_address(chain):

@@ -63,9 +63,12 @@ Statuses: `VERIFIED, TAMPERED, MISSING_FROM_DB, DELETED_AUTHORIZED, NOT_ANCHORED
 `POST /{net}/notes {content}`, `PUT /{net}/notes/{id} {content}`, `DELETE /{net}/notes/{id}`.
 
 Events: `saved {noteId}`, `fingerprint {hash}`, `sent {txHash, explorerUrl}`,
-`mined {block, gasUsed, feeEth, version}`, `done {noteId}`,
-`failed {code, message}` with code in `REFUSED, BUSY, CHAIN_UNAVAILABLE, WRONG_NETWORK,
-LOW_BALANCE, TX_FAILED, INVALID`. The last line is always `done` or `failed`.
+`mined {block, gasUsed, feeWei, feeEth, version?}` (`feeWei` is a string, `version` is absent for a
+deletion), `removed {}` (delete only: the row has left the database), `done {noteId}`,
+`failed {code, message}` with code in `REFUSED, CHAIN_UNAVAILABLE, WRONG_NETWORK, LOW_BALANCE,
+TX_FAILED, INTERNAL`. The last line is always `done` or `failed`. A create whose anchoring fails ends
+with `failed` but the note HAS been saved (the message says so). BUSY and invalid input are plain
+HTTP errors (409 and 422) returned before any stream starts.
 Each event also carries `t` (milliseconds since the request began).
 Invalid input (empty or over 500 characters) is HTTP 422 before any stream starts.
 

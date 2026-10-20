@@ -16,6 +16,14 @@ class WrongNetwork(Exception):
     """Refusing to sign transactions on a network that is not an approved test network."""
 
 
+class TransactionFailed(Exception):
+    """A transaction was mined but failed on the chain (for example it ran out of gas)."""
+
+    def __init__(self, tx_hash):
+        super().__init__(f"The transaction {tx_hash} was mined but failed")
+        self.tx_hash = tx_hash
+
+
 class Chain:
     """The only place that talks to the blockchain."""
 
@@ -91,7 +99,10 @@ class Chain:
             tx_hash = w3.eth.send_raw_transaction(signed.raw_transaction)
         if on_sent is not None:
             on_sent(w3.to_hex(tx_hash))
-        return tx_hash, w3.eth.wait_for_transaction_receipt(tx_hash, timeout=300)
+        receipt = w3.eth.wait_for_transaction_receipt(tx_hash, timeout=300)
+        if receipt["status"] != 1:
+            raise TransactionFailed(w3.to_hex(tx_hash))
+        return tx_hash, receipt
 
     @staticmethod
     def _cost(receipt):

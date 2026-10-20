@@ -9,19 +9,9 @@ from api import store
 from api.app import create_app
 from api.networks import NetworkContext
 from chain import Chain
+from tests.api_support import HARDHAT_KEY_1, make_registry
 
 H = bytes(range(32))
-HARDHAT_KEY_1 = "0x59c6995e998f97a5a0044966f0945389dc9e86dae88c7a8412f4603b6b78690d"   # public test key
-
-
-def make_registry(chain, tmp_path, local_chain=None):
-    local = NetworkContext(id="local", label="Local chain", chain=local_chain or chain,
-                           db_path=tmp_path / "local.db", explorer_base=None, balance_floor_wei=0)
-    sepolia = NetworkContext(id="sepolia", label="Sepolia", chain=None, db_path=tmp_path / "sepolia.db",
-                             explorer_base="https://sepolia.etherscan.io", balance_floor_wei=2 * 10**15,
-                             setup_reason="Sepolia is not configured: add SEPOLIA_RPC_URL and "
-                                          "SEPOLIA_PRIVATE_KEY to python/.env")
-    return {"local": local, "sepolia": sepolia}
 
 
 @pytest.fixture
