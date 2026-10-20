@@ -3,8 +3,9 @@
 A step-by-step guide. Every value, setting and expected result here was checked
 before it was written (see "How this guide was checked" at the end).
 
-**Time:** about 20 minutes. **Cost:** about 0.006 test ETH for both contracts at
-today's prices (free test money; prices move). **Nothing here can touch real money**
+**Time:** about 20 minutes. **Cost:** about 0.017 test ETH for both contracts
+(measured on 2026-10-20: 0.0100 + 0.0066 at 1.5 gwei; the gas price moves, so it can be
+lower or higher). It is free test money. **Nothing here can touch real money**
 as long as you use the new wallet and stay on the **Sepolia** network.
 
 ---
@@ -13,7 +14,8 @@ as long as you use the new wallet and stay on the **Sepolia** network.
 
 - [ ] MetaMask installed from `metamask.io`, with the **new wallet** (never held real money).
 - [ ] MetaMask is switched to **Sepolia** (the network name at the top-left says Sepolia).
-- [ ] The wallet holds test ETH. Yours had **0.05 SepoliaETH** (checked).
+- [ ] The wallet holds test ETH: at least **0.03** to be comfortable (both deployments cost
+      0.0166 in total on 2026-10-20). Yours had **0.05**.
 - [ ] You can open Remix at `https://remix.ethereum.org` in the same browser.
 
 What you are about to send is public and permanent: the contract code and your wallet
@@ -78,13 +80,14 @@ Open the **Deploy & run transactions** tab.
 6. MetaMask opens a confirmation. Read it before clicking:
    - network says **Sepolia**;
    - it says contract deployment;
-   - the fee is a tiny amount of SepoliaETH (roughly 0.003 to 0.005 today).
+   - the fee is a small amount of SepoliaETH: about 0.0035 at the lowest gas price we saw
+     (0.5 gwei) and 0.010 at 1.5 gwei, which is what it really cost on 2026-10-20;
    If MetaMask warns that the transaction is **expected to fail**, do not confirm: see
    Troubleshooting.
 7. Click **Confirm** in MetaMask. Wait about 12 to 30 seconds. Remix's terminal shows a
    green tick, and the contract appears under **Deployed Contracts**.
-8. Switch **Contract** to `MerkleRegistry` and deploy it the same way (about 0.002 to
-   0.003 ETH).
+8. Switch **Contract** to `MerkleRegistry` and deploy it the same way (about 0.0023 to
+   0.0066 ETH depending on the gas price).
 
 **Predicted addresses.** Your wallet has sent no transactions yet, so the first
 contract should land at:
@@ -202,3 +205,11 @@ wallet whose key is in `python/.env`, our Python code can write to these contrac
 - Not verified here: the exact wording and layout of the current Remix and MetaMask
   screens, which change between versions. If a button is not where this guide says,
   tell me what you see and we will adjust.
+
+## Result of the real deployment (2026-10-20)
+
+It worked exactly as predicted: `IntegrityRegistry` landed at
+`0xF9885ec5865f1DeE480825eeB3a56F461D2439Ca` and `MerkleRegistry` at
+`0xf69E23742D71E9d3dC67bb3fbc892f30080faE98`, both verified as our compiled code and
+connected to the Python code. The measured costs and what they mean are in
+`docs/journal/23-sepolia-deployed.md`.

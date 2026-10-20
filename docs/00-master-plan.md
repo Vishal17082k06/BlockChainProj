@@ -149,8 +149,8 @@ Detailed plan: `docs/plans/phase-6-merkle.md`. A separate `MerkleRegistry` contr
 Detailed plan: `docs/plans/phase-7-sepolia-remix.md`. **Flag:** from Task 7.3 onward this uses a real (throwaway) wallet key and a public network. Two explicit user approvals (GATE A before creating the wallet, GATE B before the first transaction) and a third before connecting MetaMask. The wallet is brand new and holds only free test ETH; the key lives only in the git-ignored `python/.env` and is never displayed.
 - [x] **7.1 Local signing, guardrail, settings profiles (TDD, no real network):** Python signs transactions with a key; refuses any network not in {local, Sepolia}; chunked event queries from the deployment block.
 - [x] **7.2 Guardrailed deploy script and Hardhat Sepolia config:** dry run before sending; Sepolia only; writes the deployment block.
-- [ ] **7.3 Wallet created by the user in MetaMask, RPC, faucet (aim for 0.1 SepoliaETH), key added to `.env` by the user, dry run (GATE A).**
-- [ ] **7.4 Deploy to Sepolia via Remix + MetaMask (the user's own confirmation is Gate B) and inspect on Etherscan.** Prepared: `docs/remix-guide.md`, `check_deployment.py`, `register_deployment.py` (journal 22). The Hardhat route stays available as a fallback.
+- [x] **7.3 Wallet created by the user in MetaMask, RPC, faucet (aim for 0.1 SepoliaETH), key added to `.env` by the user, dry run (GATE A).**
+- [x] **7.4 Deploy to Sepolia via Remix + MetaMask (the user's own confirmation is Gate B) and inspect on Etherscan.** Prepared: `docs/remix-guide.md`, `check_deployment.py`, `register_deployment.py` (journal 22). The Hardhat route stays available as a fallback.
 - [ ] **7.5 Run the demo on Sepolia and measure the real cost** (gas price, ETH cost, time).
 - [x] **7.6 Remix walkthrough:** written and checked (`docs/remix-guide.md`); folded into 7.4.
 - [ ] **7.7 (optional) Verify source on Etherscan** (needs a free API key).
