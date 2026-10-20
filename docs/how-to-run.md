@@ -212,3 +212,27 @@ cd "C:\A Projects\Personal\BlockChainProj\python"
 .\.venv\Scripts\python.exe demo.py
 .\.venv\Scripts\python.exe merkle_demo.py
 ```
+
+---
+
+## 8. The Witness console (web interface)
+
+A browser console for the whole story: create notes, tamper with the database, watch the chain
+catch it, with real transaction hashes and block numbers. Works on the local chain or Sepolia.
+
+1. Have the local node running and the contracts deployed (section 3).
+2. Start it (from the `python` folder):
+   ```powershell
+   .\.venv\Scripts\python.exe run_ui.py
+   ```
+3. Open **http://127.0.0.1:8000** in your browser (once the frontend is built, see
+   `frontend/README.md`). Until then `http://127.0.0.1:8000/api/docs` shows the API.
+
+Notes:
+- It listens on `127.0.0.1` only, so nothing outside your computer can reach the Attack lab.
+- Local notes live in `python/data/local.db`, Sepolia notes in `python/data/sepolia.db`
+  (git-ignored). Deleting a database is safe: new ids continue after the highest id the chain
+  has seen.
+- **Sepolia writes spend test ETH** (about 0.0005 per anchor at today's prices). The console
+  refuses to start a write if the wallet holds less than 0.002 ETH.
+- Only one write runs at a time per network; the interface greys out the buttons meanwhile.

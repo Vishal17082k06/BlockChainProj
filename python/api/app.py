@@ -7,7 +7,7 @@ from fastapi.staticfiles import StaticFiles
 
 from chain import ChainUnavailable
 
-from . import routes_read, routes_write
+from . import routes_attack, routes_read, routes_write
 from .networks import build_registry
 
 DEV_ORIGINS = ["http://127.0.0.1:5173", "http://localhost:5173"]
@@ -25,6 +25,7 @@ def create_app(registry=None, static_dir=None) -> FastAPI:
 
     app.include_router(routes_read.router, prefix="/api")
     app.include_router(routes_write.router, prefix="/api")
+    app.include_router(routes_attack.router, prefix="/api")
 
     if static_dir is not None and Path(static_dir).exists():
         app.mount("/", StaticFiles(directory=static_dir, html=True), name="frontend")

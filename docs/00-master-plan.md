@@ -158,7 +158,7 @@ Detailed plan: `docs/plans/phase-7-sepolia-remix.md`. **Flag:** from Task 7.3 on
 
 ### Phase 8: Demo console (frontend)
 Detailed plan: `docs/plans/phase-8-demo-console.md`; design: `docs/specs/2026-10-21-demo-console-design.md`.
-- [ ] **8.1-8.6 API (FastAPI):** chain history and progress hooks, stage streaming, read, write and Attack lab endpoints, runner.
+- [x] **8.1-8.6 API (FastAPI):** chain history and progress hooks, stage streaming, read, write and Attack lab endpoints, runner.
 - [ ] **9.1-9.9 Frontend (React + TypeScript):** tokens and fonts, logic modules, shell, ledger, inspector with the Seal check, live activity tape, Attack lab, polish with screenshot critique, end-to-end run.
 
 ### Phase 9: Report and viva
