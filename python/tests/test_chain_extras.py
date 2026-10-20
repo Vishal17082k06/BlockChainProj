@@ -109,6 +109,16 @@ def test_status_reports_the_chain_the_wallet_and_the_owner(chain):
     assert chain.status()["block_number"] > before["block_number"]
 
 
+def test_pulse_is_the_cheap_live_reading_a_poller_needs(chain):
+    first = chain.pulse()
+    assert set(first) == {"block_number", "balance_wei"}
+    assert first["balance_wei"] == chain.status()["balance_wei"]
+    chain.anchor("note", 1, H1)
+    second = chain.pulse()
+    assert second["block_number"] > first["block_number"]
+    assert second["balance_wei"] < first["balance_wei"]              # the dev account paid gas
+
+
 def test_status_uses_the_signing_key_address_when_there_is_one(_live_chain):
     # Key #1 belongs to the dev node's SECOND account, so this fails if the key is ignored.
     signer = Chain(private_key=HARDHAT_KEY_1)

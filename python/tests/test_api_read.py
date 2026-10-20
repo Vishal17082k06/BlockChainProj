@@ -57,6 +57,18 @@ def test_networks_reports_an_unreachable_node_as_not_ready(chain, tmp_path):
     assert local["ready"] is False and "not reachable" in local["reason"]
 
 
+def test_pulse_returns_the_block_height_and_balance_cheaply(client, chain):
+    first = client.get("/api/local/pulse").json()
+    assert set(first) == {"blockNumber", "balanceEth"}
+    assert isinstance(first["blockNumber"], int) and re.fullmatch(r"\d+\.\d{6}", first["balanceEth"])
+    chain.anchor("note", 1, H)
+    assert client.get("/api/local/pulse").json()["blockNumber"] > first["blockNumber"]
+
+
+def test_pulse_of_a_network_that_is_not_ready_is_503(client):
+    assert client.get("/api/sepolia/pulse").status_code == 503
+
+
 def test_records_on_an_empty_database(client):
     assert client.get("/api/local/records").json() == {"summary": {}, "records": []}
 

@@ -180,14 +180,29 @@ class Chain:
             return {"versions": versions, "deleted": deletion}
         return self._run(act)
 
+    def _wallet(self, w3):
+        """The address this object sends from: the signing key's, or the dev node's first account."""
+        if self._private_key is not None:
+            return w3.eth.account.from_key(self._private_key).address
+        return w3.eth.accounts[0]
+
     def status(self):
         """Live facts about the chain and the wallet this object signs with."""
         def act(w3, contract):
-            wallet = (w3.eth.account.from_key(self._private_key).address
-                      if self._private_key is not None else w3.eth.accounts[0])
+            wallet = self._wallet(w3)
             return {"chain_id": w3.eth.chain_id, "block_number": w3.eth.block_number,
                     "wallet": wallet, "balance_wei": w3.eth.get_balance(wallet),
                     "owner": contract.functions.owner().call()}
+        return self._run(act)
+
+    def pulse(self):
+        """The two numbers a live display polls: block height and the wallet's balance.
+
+        Cheaper than `status()` (two requests, not four), so it is kind to free public servers.
+        """
+        def act(w3, contract):
+            return {"block_number": w3.eth.block_number,
+                    "balance_wei": w3.eth.get_balance(self._wallet(w3))}
         return self._run(act)
 
     # Development-node helpers (used by tests to reset state between tests).

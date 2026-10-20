@@ -76,6 +76,13 @@ def networks(request: Request):
     return [_describe(ctx) for ctx in request.app.state.registry.values()]
 
 
+@router.get("/{net}/pulse")
+def pulse(request: Request, net: str):
+    """Block height and wallet balance, cheap enough to poll every few seconds."""
+    reading = require_network(request, net).chain.pulse()
+    return {"blockNumber": reading["block_number"], "balanceEth": _eth(reading["balance_wei"])}
+
+
 @router.get("/{net}/records")
 def list_records(request: Request, net: str):
     return collect(require_network(request, net))
