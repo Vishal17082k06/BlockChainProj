@@ -1,4 +1,4 @@
-import { formatBlock, formatElapsed, formatEth, formatGas, shortHash, timeAgo } from './format'
+import { formatBlock, formatElapsed, formatEth, formatFee, formatGas, shortHash, timeAgo } from './format'
 
 const NOW = 1_800_000_000_000          // a fixed "now" in milliseconds
 const ago = (seconds: number) => NOW / 1000 - seconds
@@ -34,6 +34,13 @@ describe('numbers', () => {
     expect(formatEth('1.000000')).toBe('1')
     expect(formatEth('0.000000000')).toBe('0')
     expect(formatEth(null)).toBe('—')
+  })
+
+  it('never shows a fee that was really paid as plain zero', () => {
+    // Sepolia gas can cost a few wei: the API rounds that to nine decimals, which reads as 0.
+    expect(formatFee('0.000000000')).toBe('<0.000000001')
+    expect(formatFee('0.000084331000')).toBe('0.000084331')
+    expect(formatFee(null)).toBe('—')
   })
 
   it('formats elapsed time at the right scale', () => {

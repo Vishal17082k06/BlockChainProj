@@ -240,6 +240,8 @@ Notes:
 - Local notes live in `python/data/local.db`, Sepolia notes in `python/data/sepolia.db`
   (git-ignored). Deleting a database is safe: new ids continue after the highest id the chain
   has seen.
-- **Sepolia writes spend test ETH** (about 0.0005 per anchor at today's prices). The console
-  refuses to start a write if the wallet holds less than 0.002 ETH.
+- **Sepolia writes spend test ETH.** When measured on 2026-10-21 the gas price was only 18 wei, so a whole
+  create, edit and delete cost far less than 0.000001 ETH; the price can be much higher on other days.
+  The console refuses to start a write if the wallet holds less than 0.002 ETH. A Sepolia write takes
+  about 9 to 22 seconds (waiting for a block) and Verify all about 8 seconds on the free public server.
 - Only one write runs at a time per network; the interface greys out the buttons meanwhile.

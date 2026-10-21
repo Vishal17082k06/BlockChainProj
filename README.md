@@ -15,7 +15,8 @@ Source design: `Blockchain_Data_Integrity_Verification_Report.pdf` (v1.0).
 | Contracts (single-record and Merkle), local and Sepolia deployment | Done |
 | Python integrity module, CLI demos, tamper detection | Done |
 | Witness web console (Local and Sepolia) | Done: runs end to end on the local chain |
-| Sepolia demo run with measured real cost (plan 7.5), Etherscan source verification (7.7, optional) | Not done |
+| Sepolia demo run through the console with measured real cost (plan 7.5) | Done (journal 26) |
+| Etherscan source verification (plan 7.7, optional) | Not done |
 | Report and viva material (plan Phase 9) | Not done |
 
 Tests: Hardhat 34, Python 165, frontend 162. How to run everything: `docs/how-to-run.md`.

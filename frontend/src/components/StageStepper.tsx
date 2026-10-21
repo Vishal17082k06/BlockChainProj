@@ -1,6 +1,6 @@
 import type { FailureCode } from '../lib/types'
 import { cx } from '../lib/cx'
-import { formatBlock, formatElapsed, formatEth, formatGas, shortHash } from '../lib/format'
+import { formatBlock, formatElapsed, formatFee, formatGas, shortHash } from '../lib/format'
 import type { RunState, StepId } from '../lib/stageReducer'
 import { useLiveElapsed } from '../hooks/useLiveElapsed'
 import { Icon } from './icons'
@@ -112,7 +112,7 @@ export function StageStepper({ run, network, onDismiss }: Props) {
             {run.block !== null ? (
               <>
                 {run.kind === 'delete' ? 'Deletion recorded' : `Anchored as version ${run.version ?? '?'}`} in block{' '}
-                {formatBlock(run.block)} · {formatGas(run.gasUsed)} gas · {formatEth(run.feeEth)} ETH
+                {formatBlock(run.block)} · {formatGas(run.gasUsed)} gas · {formatFee(run.feeEth)} ETH
               </>
             ) : (
               'Done.'

@@ -28,6 +28,13 @@ export function formatEth(eth: string | null): string {
   return trimmed === '' ? '0' : trimmed
 }
 
+/** Like formatEth, for a fee that was actually paid: a mined transaction is never free, so a fee that rounds
+ *  to zero is shown as "less than the smallest amount we display". */
+export function formatFee(eth: string | null): string {
+  const shown = formatEth(eth)
+  return shown === '0' ? '<0.000000001' : shown
+}
+
 export function formatElapsed(ms: number): string {
   if (ms < 1000) return `${Math.round(ms)} ms`
   if (ms < 60_000) return `${(ms / 1000).toFixed(1)} s`

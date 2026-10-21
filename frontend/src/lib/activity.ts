@@ -1,4 +1,4 @@
-import { formatBlock, formatEth, formatGas, shortHash } from './format'
+import { formatBlock, formatFee, formatGas, shortHash } from './format'
 import type { NetworkId, StageEvent } from './types'
 
 export type ActivityTag =
@@ -45,7 +45,7 @@ export function fromStage(event: StageEvent, network: NetworkId): ActivityInput 
     case 'mined':
       return {
         tag: 'MINED',
-        text: `Mined in block ${formatBlock(event.block)} · ${formatGas(event.gasUsed)} gas · ${formatEth(event.feeEth)} ETH`,
+        text: `Mined in block ${formatBlock(event.block)} · ${formatGas(event.gasUsed)} gas · ${formatFee(event.feeEth)} ETH`,
         tone: 'ok',
         network,
       }
