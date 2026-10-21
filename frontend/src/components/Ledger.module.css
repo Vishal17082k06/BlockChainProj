@@ -1,0 +1,161 @@
+.ledger {
+  background: var(--panel);
+  border: 1px solid var(--rule);
+  border-radius: var(--r-md);
+  overflow: hidden;
+}
+
+.head,
+.row {
+  display: grid;
+  grid-template-columns: 58px minmax(0, 1fr) 208px 54px 92px;
+  align-items: center;
+  gap: var(--s-3);
+  padding: 0 var(--s-4);
+}
+
+.head {
+  height: 38px;
+  border-bottom: 1px solid var(--rule);
+  background: color-mix(in srgb, var(--panel-sunk) 55%, var(--panel));
+  color: var(--muted);
+  font-size: var(--fs-12);
+  font-weight: 600;
+  font-stretch: 92%;
+}
+
+.row {
+  position: relative;
+  min-height: 56px;
+  border-bottom: 1px solid var(--rule);
+  cursor: pointer;
+  transition: background-color var(--t-fast) var(--ease);
+}
+
+.row:last-child {
+  border-bottom: 0;
+}
+
+.row:hover {
+  background: #f5f7f3;
+}
+
+.selected,
+.selected:hover {
+  background: var(--panel-sunk);
+  box-shadow: inset 3px 0 0 var(--ink);
+}
+
+.row:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: -2px;
+}
+
+.id {
+  color: var(--muted);
+  font-size: var(--fs-12);
+}
+
+.note {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--ink);
+}
+
+.note span {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ghostRow {
+  background-image: repeating-linear-gradient(
+    -45deg,
+    transparent 0 9px,
+    color-mix(in srgb, var(--missing) 5%, transparent) 9px 10px
+  );
+}
+
+.ghost {
+  color: var(--missing);
+  font-style: italic;
+}
+
+.status {
+  display: flex;
+}
+
+.version {
+  color: var(--ink-2);
+  font-size: var(--fs-12);
+  text-align: right;
+}
+
+.when {
+  color: var(--muted);
+  font-size: var(--fs-13);
+  text-align: right;
+  white-space: nowrap;
+}
+
+.skeleton {
+  height: 56px;
+  border-bottom: 1px solid var(--rule);
+  background: linear-gradient(90deg, var(--panel) 0%, var(--panel-sunk) 40%, var(--panel) 80%);
+  background-size: 220% 100%;
+  animation: shimmer 1.4s linear infinite;
+}
+
+.skeleton:last-child {
+  border-bottom: 0;
+}
+
+@keyframes shimmer {
+  from {
+    background-position: 120% 0;
+  }
+  to {
+    background-position: -100% 0;
+  }
+}
+
+/* On a narrow screen each row becomes a small card. */
+@media (max-width: 760px) {
+  .head {
+    display: none;
+  }
+
+  .row {
+    grid-template-columns: auto 1fr auto;
+    grid-template-areas:
+      'id status status'
+      'note note note'
+      'version when when';
+    gap: 4px var(--s-3);
+    padding: var(--s-3) var(--s-4);
+  }
+
+  .id {
+    grid-area: id;
+  }
+
+  .status {
+    grid-area: status;
+    justify-content: flex-end;
+  }
+
+  .note {
+    grid-area: note;
+  }
+
+  .version {
+    grid-area: version;
+    text-align: left;
+  }
+
+  .when {
+    grid-area: when;
+  }
+}

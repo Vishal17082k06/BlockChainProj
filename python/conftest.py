@@ -19,6 +19,11 @@ def _live_chain():
     except (ChainUnavailable, FileNotFoundError) as exc:
         pytest.skip(f"Local chain not available ({exc}). "
                     "Start 'npx hardhat node' and deploy the contract.")
+    if c.anchored_records():
+        pytest.exit("The local chain already holds anchored records (left by an earlier demo or a "
+                    "manual run), so tests that expect a clean chain would fail confusingly. "
+                    "Restart the node (npx hardhat node), redeploy the contracts, then run the "
+                    "tests again.", returncode=3)
     return c
 
 
@@ -38,6 +43,10 @@ def _live_merkle_chain():
     except (ChainUnavailable, FileNotFoundError) as exc:
         pytest.skip(f"MerkleRegistry not available ({exc}). Run "
                     "'npx hardhat run scripts/deploy_merkle.js --network localhost'.")
+    if c.batch_count():
+        pytest.exit("MerkleRegistry already holds batches from an earlier run. Restart the node "
+                    "(npx hardhat node), redeploy the contracts, then run the tests again.",
+                    returncode=3)
     return c
 
 

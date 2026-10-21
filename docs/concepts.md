@@ -106,6 +106,22 @@ where it came up (journal step) so you can find the context.
   or attacker would, from creating a record to detecting each kind of tampering.
   (Step 15)
 
+## The web console (Phase 8)
+
+- **API**: a program that waits for requests over HTTP and answers them. The browser cannot hash
+  records itself (the secret key and the canonical-JSON rules live in Python), so it asks the API,
+  which reuses the code we already tested. (Step 24)
+- **Stream (NDJSON)**: the API sends one small JSON line per stage of a write (saved, fingerprint,
+  sent, mined, done) as each really happens, instead of one answer at the end. (Step 24)
+- **Reducer**: a plain function `(old state, event) -> new state`. The progress card is a reducer fed
+  by the API's real events, so it can only show what truly happened. (Step 25)
+- **Seal check**: the console's signature view. The fingerprint the chain remembers and the one the
+  database now produces are drawn as two aligned rows with every differing character highlighted. (Step 25)
+- **Attack lab**: demo-only controls that change the database directly, bypassing the app and never
+  telling the chain, to show the chain noticing. They exist only in the demo console. (Step 24, 25)
+- **Contrast ratio (WCAG)**: a number for how readable text is against its background; 4.5 to 1 is
+  the pass mark for normal text. (Step 25)
+
 ## Blockchain basics (filled in from Phase 1 onward)
 
 - **Hash function**: takes any input and produces a fixed-size output (SHA-256:
@@ -235,6 +251,16 @@ where it came up (journal step) so you can find the context.
 - **Deployment verification**: checking the code at an address, the transaction that
   created it, the network and the owner before trusting it, instead of trusting
   whatever address someone provides. (Step 22)
+- **Gas used x gas price = fee**: the gas used is a count of work units (stable and
+  predictable); the price per unit floats with demand. A cost estimate made at a low
+  price can be off by several times when the transaction is paid, even if the gas count
+  was exact. Our deployments: estimated 0.0035 ETH, paid 0.010 ETH. (Step 23)
+- **A deployed contract does not run or accrue charges**: it is data stored on the
+  network. You pay only when you send a transaction that changes something; reading is
+  free. There is nothing to stop. (Step 23)
+- **Archive node**: a server that keeps the full state of every past block. Free public
+  servers usually do not (they refuse "historical state"), so old lookups need a paid
+  archive node or a block-explorer API. (Step 23)
 - **Defence in depth**: layering protections so no single one is the only thing
   holding the line. The leaf/node prefixes are one: fixed 32-byte leaves already
   block the attack, and the prefixes cover the case where that changes. (Step 16)

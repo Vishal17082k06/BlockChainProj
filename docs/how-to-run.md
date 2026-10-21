@@ -122,7 +122,7 @@ from the deployer's account and its transaction count. Each command also writes 
 | # | What | Needs the node? | Command (from the folder shown) | Expected result |
 |---|------|-----------------|---------------------------------|-----------------|
 | 1 | Smart contract tests | No | `blockchain`: `npx hardhat test` | `34 passing` |
-| 2 | Python tests | **Yes** (and deploy) | `python`: `.\.venv\Scripts\python.exe -m pytest -q` | `67 passed` |
+| 2 | Python tests | **Yes** (and deploy) | `python`: `.\.venv\Scripts\python.exe -m pytest -q` | `165 passed` |
 | 3 | Tamper-detection demo | **Yes** (and deploy) | `python`: `.\.venv\Scripts\python.exe demo.py` | 9 numbered steps, see below |
 | 4 | Merkle batching demo | **Yes** (and deploy) | `python`: `.\.venv\Scripts\python.exe merkle_demo.py` | 5 steps, see below |
 | 5 | Gas: two key designs | No | `blockchain`: `npx hardhat run scripts/measure_gas.js` | a table of gas numbers |
@@ -133,6 +133,7 @@ from the deployer's account and its transaction count. Each command also writes 
 | 10 | Narrated tour of ONE note | **Yes** (and deploy) | repo root: `.\python\.venv\Scripts\python.exe experiments\life_of_a_note.py` | 8 stages, from database row to `TAMPERED` |
 | 11 | Check a deployment is our code | **Yes** (and deploy) | `python`: `.\.venv\Scripts\python.exe check_deployment.py` (add `--network sepolia`) | `MATCHES our compiled code` |
 | 12 | Register a hand-deployed contract | the network it is on | `python`: `.\.venv\Scripts\python.exe register_deployment.py <Contract> <address> <tx hash> --network sepolia` | `Registered. Wrote ...` (see `docs/remix-guide.md`) |
+| 14 | Frontend tests | No | `frontend`: `npm test` | `162 passed` |
 | 13 | Test values for Remix | No | repo root: `.\python\.venv\Scripts\python.exe experiments\remix_inputs.py` | hashes and a Merkle proof |
 
 Each "cd" is `cd "C:\A Projects\Personal\BlockChainProj\<folder>"`.
@@ -212,3 +213,35 @@ cd "C:\A Projects\Personal\BlockChainProj\python"
 .\.venv\Scripts\python.exe demo.py
 .\.venv\Scripts\python.exe merkle_demo.py
 ```
+
+---
+
+## 8. The Witness console (web interface)
+
+A browser console for the whole story: create notes, tamper with the database, watch the chain
+catch it, with real transaction hashes and block numbers. Works on the local chain or Sepolia.
+
+1. Have the local node running and the contracts deployed (section 3).
+2. Start it (from the `python` folder):
+   ```powershell
+   .\.venv\Scripts\python.exe run_ui.py
+   ```
+3. Build the frontend once (and again after changing it), from the `frontend` folder:
+   ```powershell
+   npm install
+   npm run build
+   ```
+4. Open **http://127.0.0.1:8000** in your browser. (`http://127.0.0.1:8000/api/docs` shows the raw API.)
+
+To work on the interface itself, see `frontend/README.md`.
+
+Notes:
+- It listens on `127.0.0.1` only, so nothing outside your computer can reach the Attack lab.
+- Local notes live in `python/data/local.db`, Sepolia notes in `python/data/sepolia.db`
+  (git-ignored). Deleting a database is safe: new ids continue after the highest id the chain
+  has seen.
+- **Sepolia writes spend test ETH.** When measured on 2026-10-21 the gas price was only 18 wei, so a whole
+  create, edit and delete cost far less than 0.000001 ETH; the price can be much higher on other days.
+  The console refuses to start a write if the wallet holds less than 0.002 ETH. A Sepolia write takes
+  about 9 to 22 seconds (waiting for a block) and Verify all about 8 seconds on the free public server.
+- Only one write runs at a time per network; the interface greys out the buttons meanwhile.

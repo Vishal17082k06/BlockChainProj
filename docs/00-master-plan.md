@@ -4,7 +4,7 @@
 
 **Goal:** Anchor a keyed hash of a database record on a blockchain, and later verify from the database whether the record was tampered with.
 
-**Architecture:** A small Solidity contract (`IntegrityRegistry`) on a local Hardhat chain stores an append-only list of 32-byte HMAC hashes per record. Plain Python scripts hash a database row, anchor it, and on request recompute and compare. No web server, no UI: a command-line demo is enough.
+**Architecture:** A small Solidity contract (`IntegrityRegistry`) on a local Hardhat chain stores an append-only list of 32-byte HMAC hashes per record. Plain Python scripts hash a database row, anchor it, and on request recompute and compare. Phases 1 to 7 are command-line only; Phase 8 later added a thin FastAPI layer and a React web console (the "Witness" demo console) on top of the same tested Python code.
 
 **Tech Stack:** Solidity 0.8.x, Hardhat 2 (Node.js), Python 3.10+, web3.py, SQLite (Python built-in), pytest.
 
@@ -24,8 +24,8 @@
 
 | Cut | Reason |
 |-----|--------|
-| FastAPI server, routes, auth | Plumbing. A CLI demo shows the same behaviour. |
-| React badge | No blockchain learning. |
+| FastAPI server, routes, auth | Cut at first (a CLI shows the same behaviour). **Later added in Phase 8** as a thin, localhost-only demo API with no auth. |
+| React badge | Cut at first. **Later replaced by the Phase 8 demo console**, built for presenting the demo. |
 | PostgreSQL | SQLite ships with Python, zero setup. Swapping to Postgres later is only a connection change. Tamper demo uses the `sqlite3` command line. |
 | `pending_anchor` retry queue, `verification_history` table | Nice engineering, not blockchain. Written up as limitations/future work in the report. |
 | Multiple record types | We protect `note` only; `RECORD_SPECS` is a dict so adding `calendarevent` is one entry. |
@@ -149,15 +149,20 @@ Detailed plan: `docs/plans/phase-6-merkle.md`. A separate `MerkleRegistry` contr
 Detailed plan: `docs/plans/phase-7-sepolia-remix.md`. **Flag:** from Task 7.3 onward this uses a real (throwaway) wallet key and a public network. Two explicit user approvals (GATE A before creating the wallet, GATE B before the first transaction) and a third before connecting MetaMask. The wallet is brand new and holds only free test ETH; the key lives only in the git-ignored `python/.env` and is never displayed.
 - [x] **7.1 Local signing, guardrail, settings profiles (TDD, no real network):** Python signs transactions with a key; refuses any network not in {local, Sepolia}; chunked event queries from the deployment block.
 - [x] **7.2 Guardrailed deploy script and Hardhat Sepolia config:** dry run before sending; Sepolia only; writes the deployment block.
-- [ ] **7.3 Wallet created by the user in MetaMask, RPC, faucet (aim for 0.1 SepoliaETH), key added to `.env` by the user, dry run (GATE A).**
-- [ ] **7.4 Deploy to Sepolia via Remix + MetaMask (the user's own confirmation is Gate B) and inspect on Etherscan.** Prepared: `docs/remix-guide.md`, `check_deployment.py`, `register_deployment.py` (journal 22). The Hardhat route stays available as a fallback.
-- [ ] **7.5 Run the demo on Sepolia and measure the real cost** (gas price, ETH cost, time).
+- [x] **7.3 Wallet created by the user in MetaMask, RPC, faucet (aim for 0.1 SepoliaETH), key added to `.env` by the user, dry run (GATE A).**
+- [x] **7.4 Deploy to Sepolia via Remix + MetaMask (the user's own confirmation is Gate B) and inspect on Etherscan.** Prepared: `docs/remix-guide.md`, `check_deployment.py`, `register_deployment.py` (journal 22). The Hardhat route stays available as a fallback.
+- [x] **7.5 Run the demo on Sepolia and measure the real cost** (gas price, ETH cost, time). Done through the console on 2026-10-21, see journal 26.
 - [x] **7.6 Remix walkthrough:** written and checked (`docs/remix-guide.md`); folded into 7.4.
 - [ ] **7.7 (optional) Verify source on Etherscan** (needs a free API key).
   - Learn: signing vs node-held accounts, nonces, real gas, confirmation time, why a testnet gives the independence a local node lacks.
 
-### Phase 8: Report and viva
-- [ ] **8.1** Assemble report chapters from the journal (PDF 12.3 mapping); fill the measurements table (`time.perf_counter()`, 20+ runs: hash time, anchor time, verify time, gas); rehearse the 30-second explanation and the Q&A (PDF 12.2).
+### Phase 8: Demo console (frontend)
+Detailed plan: `docs/plans/phase-8-demo-console.md`; design: `docs/specs/2026-10-21-demo-console-design.md`.
+- [x] **8.1-8.6 API (FastAPI):** chain history and progress hooks, stage streaming, read, write and Attack lab endpoints, runner.
+- [x] **9.1-9.9 Frontend (React + TypeScript):** tokens and fonts, logic modules, shell, ledger, inspector with the Seal check, live activity tape, Attack lab, polish with screenshot critique, end-to-end run.
+
+### Phase 9: Report and viva
+- [ ] **9.1 (report)** Assemble report chapters from the journal (PDF 12.3 mapping); fill the measurements table (`time.perf_counter()`, 20+ runs: hash time, anchor time, verify time, gas); rehearse the 30-second explanation and the Q&A (PDF 12.2).
 
 ---
 

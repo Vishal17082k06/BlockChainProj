@@ -1,0 +1,57 @@
+.pulse {
+  display: flex;
+  align-items: center;
+  gap: var(--s-4);
+}
+
+.item {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 7px;
+  white-space: nowrap;
+}
+
+.dot {
+  align-self: center;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--verified);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--verified) 20%, transparent);
+}
+
+.off {
+  background: var(--faint);
+  box-shadow: none;
+}
+
+.label {
+  color: var(--muted);
+  font-size: var(--fs-12);
+  font-stretch: 92%;
+}
+
+.value {
+  color: var(--ink);
+  font-size: var(--fs-12);
+  font-weight: 560;
+}
+
+.flash {
+  animation: tick 900ms var(--ease);
+}
+
+@keyframes tick {
+  0% {
+    color: var(--adv-accent);
+  }
+  100% {
+    color: var(--ink);
+  }
+}
+
+@media (max-width: 700px) {
+  .label {
+    display: none;
+  }
+}

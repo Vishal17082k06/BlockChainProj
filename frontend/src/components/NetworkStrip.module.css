@@ -1,0 +1,64 @@
+.strip {
+  --net: var(--net-local);
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--s-1) var(--s-4);
+  padding: 7px var(--s-5);
+  border-bottom: 1px solid var(--rule);
+  border-top: 3px solid var(--net);
+  background: color-mix(in srgb, var(--net) 7%, var(--paper));
+  font-size: var(--fs-12);
+  color: var(--ink-2);
+}
+
+.name {
+  color: var(--net);
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+
+.text {
+  flex: 1 1 320px;
+  min-width: 0;
+  color: var(--muted);
+}
+
+.meta {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-4);
+  color: var(--muted);
+}
+
+.contract {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.iconButton {
+  display: inline-grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border: 0;
+  border-radius: 5px;
+  background: transparent;
+  color: var(--muted);
+}
+
+.iconButton:hover {
+  background: color-mix(in srgb, var(--net) 12%, transparent);
+  color: var(--ink);
+}
+
+@media (max-width: 700px) {
+  .strip {
+    padding: 7px var(--s-3);
+  }
+
+  .text {
+    display: none;
+  }
+}

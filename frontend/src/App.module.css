@@ -1,0 +1,84 @@
+.app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  /* Room for the fixed activity bar so nothing hides behind it. */
+  padding-bottom: 60px;
+}
+
+.main {
+  flex: 1;
+  width: 100%;
+  max-width: 1480px;
+  margin: 0 auto;
+  padding: var(--s-5);
+}
+
+.columns {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 440px;
+  gap: var(--s-5);
+  align-items: start;
+}
+
+.ledgerColumn {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-4);
+  min-width: 0;
+}
+
+.inspector {
+  position: sticky;
+  top: var(--s-5);
+  max-height: calc(100vh - 120px);
+  overflow-y: auto;
+  border-radius: var(--r-md);
+}
+
+/* Below this width the inspector no longer fits beside the ledger, so it slides over it. */
+@media (max-width: 1100px) {
+  .columns {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .inspector {
+    position: fixed;
+    inset: 0 0 0 auto;
+    z-index: 30;
+    width: min(440px, 100%);
+    max-height: none;
+    border-radius: 0;
+    background: var(--panel);
+    box-shadow: var(--shadow-drawer);
+    transform: translateX(105%);
+    visibility: hidden;
+    transition:
+      transform var(--t-med) var(--ease),
+      visibility 0s linear var(--t-med);
+  }
+
+  .inspectorOpen {
+    transform: none;
+    visibility: visible;
+    transition-delay: 0s;
+  }
+
+  .inspector > div {
+    min-height: 100%;
+    border: 0;
+    border-radius: 0;
+  }
+}
+
+@media (max-width: 700px) {
+  .main {
+    padding: var(--s-4);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .inspector {
+    transition: none;
+  }
+}

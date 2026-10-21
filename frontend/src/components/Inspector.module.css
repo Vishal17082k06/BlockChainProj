@@ -1,0 +1,275 @@
+.panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-5);
+  padding: var(--s-5);
+  background: var(--panel);
+  border: 1px solid var(--rule);
+  border-radius: var(--r-md);
+}
+
+.placeholder {
+  gap: var(--s-3);
+  color: var(--muted);
+  font-size: var(--fs-13);
+}
+
+.placeholderTitle {
+  color: var(--ink);
+  font-size: var(--fs-17);
+  font-weight: 650;
+}
+
+/* A faint outline of the two fingerprint rows, so the empty panel shows what will appear. */
+.ghostSeal {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-2);
+  margin-top: var(--s-2);
+}
+
+.ghostSeal span {
+  height: 34px;
+  border: 1px dashed var(--rule-strong);
+  border-radius: var(--r-sm);
+}
+
+.head {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--s-3);
+}
+
+.headTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.id {
+  font-size: var(--fs-17);
+  font-weight: 650;
+  letter-spacing: -0.01em;
+}
+
+.close {
+  display: none;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border: 0;
+  border-radius: var(--r-sm);
+  background: transparent;
+  color: var(--muted);
+}
+
+.close:hover {
+  background: var(--panel-sunk);
+  color: var(--ink);
+}
+
+.explain {
+  color: var(--ink-2);
+  font-size: var(--fs-13);
+}
+
+.noteCard {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-2);
+}
+
+.cardLabel {
+  color: var(--muted);
+  font-size: var(--fs-12);
+  font-weight: 560;
+  font-stretch: 92%;
+}
+
+.noteText {
+  padding: var(--s-3) var(--s-4);
+  border-left: 3px solid var(--rule-strong);
+  background: var(--paper);
+  border-radius: 0 var(--r-sm) var(--r-sm) 0;
+  font-size: var(--fs-15);
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.noteGone {
+  padding: var(--s-3) var(--s-4);
+  border: 1px dashed var(--rule-strong);
+  border-radius: var(--r-sm);
+  color: var(--faint);
+  font-size: var(--fs-13);
+}
+
+.editForm {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-2);
+}
+
+.textarea {
+  width: 100%;
+  padding: var(--s-3);
+  border: 1px solid var(--ink);
+  border-radius: var(--r-sm);
+  background: var(--panel);
+  color: var(--ink);
+  font-size: var(--fs-15);
+  line-height: 1.5;
+  resize: vertical;
+}
+
+.editActions,
+.confirmButtons {
+  display: flex;
+  gap: var(--s-2);
+}
+
+.skeleton {
+  height: 220px;
+  border-radius: var(--r-md);
+  background: linear-gradient(90deg, var(--panel-sunk) 0%, #f3f5f1 40%, var(--panel-sunk) 80%);
+  background-size: 220% 100%;
+  animation: shimmer 1.4s linear infinite;
+}
+
+@keyframes shimmer {
+  from {
+    background-position: 120% 0;
+  }
+  to {
+    background-position: -100% 0;
+  }
+}
+
+/* The actions stay in view at the bottom of the panel however long the history above them grows. The negative
+   margins let the bar reach the panel's edges, and the radius matches the panel's rounded corners. */
+.actions {
+  position: sticky;
+  bottom: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-2);
+  margin: 0 calc(var(--s-5) * -1) calc(var(--s-5) * -1);
+  padding: var(--s-4) var(--s-5) var(--s-5);
+  border-top: 1px solid var(--rule);
+  border-radius: 0 0 var(--r-md) var(--r-md);
+  background: var(--panel);
+}
+
+.confirm {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-3);
+  width: 100%;
+  font-size: var(--fs-13);
+  color: var(--ink-2);
+}
+
+.primary,
+.secondary,
+.ghost,
+.danger,
+.dangerOutline,
+.attack {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  height: 36px;
+  padding: 0 var(--s-4) 0 var(--s-3);
+  border-radius: var(--r-sm);
+  font-size: var(--fs-13);
+  font-weight: 620;
+  white-space: nowrap;
+  transition:
+    background-color var(--t-fast) var(--ease),
+    border-color var(--t-fast) var(--ease),
+    color var(--t-fast) var(--ease);
+}
+
+.primary {
+  border: 0;
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.primary:hover:not(:disabled) {
+  background: #2a3442;
+}
+
+.secondary {
+  border: 1px solid var(--rule-strong);
+  background: var(--panel);
+  color: var(--ink);
+}
+
+.secondary:hover:not(:disabled) {
+  background: var(--panel-sunk);
+  border-color: var(--faint);
+}
+
+.ghost {
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--ink-2);
+  padding: 0 var(--s-3);
+}
+
+.ghost:hover {
+  background: var(--panel-sunk);
+}
+
+.danger {
+  border: 0;
+  background: var(--tampered);
+  color: #fff;
+}
+
+.danger:hover:not(:disabled) {
+  background: #a82717;
+}
+
+.dangerOutline {
+  border: 1px solid color-mix(in srgb, var(--tampered) 40%, var(--rule));
+  background: var(--panel);
+  color: var(--tampered);
+}
+
+.dangerOutline:hover:not(:disabled) {
+  background: var(--tampered-bg);
+}
+
+/* The Attack lab button already wears the attacker's colours: dark, with the hot accent. */
+.attack {
+  margin-left: auto;
+  border: 1px solid var(--adv-bg);
+  background: var(--adv-bg);
+  color: var(--adv-ink);
+}
+
+.attack :global(svg) {
+  color: var(--adv-accent);
+}
+
+.attack:hover:not(:disabled) {
+  background: var(--adv-raised);
+}
+
+.primary:disabled,
+.secondary:disabled,
+.dangerOutline:disabled,
+.attack:disabled,
+.danger:disabled {
+  opacity: 0.45;
+}
+
+@media (max-width: 1100px) {
+  .close {
+    display: grid;
+  }
+}

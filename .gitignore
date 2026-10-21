@@ -13,3 +13,9 @@ blockchain/cache/
 blockchain/deployment.json
 blockchain/merkle_deployment.json
 *.db
+
+# Witness console databases (one per network)
+python/data/
+
+# Built frontend
+frontend/dist/

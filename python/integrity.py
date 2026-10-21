@@ -28,12 +28,29 @@ def compute_digest(record_type, record):
     return keyed_hash(canonical_bytes(record_type, record, _spec(record_type)["fields"]))
 
 
-def anchor_record(conn, chain, record_type, record_id):
+def report_stage(on_stage, name, payload):
+    """Tell an optional listener about one real stage of a write. No listener: no effect."""
+    if on_stage is not None:
+        on_stage(name, payload)
+
+
+def tx_sent_reporter(on_stage):
+    """An `on_sent` callback for the chain that reports the `sent` stage (or None)."""
+    if on_stage is None:
+        return None
+    return lambda tx_hash: on_stage("sent", {"tx_hash": tx_hash})
+
+
+def anchor_record(conn, chain, record_type, record_id, on_stage=None):
     record = fetch_record(conn, record_type, record_id)
     if record is None:
         raise ValueError("Record not found")
     digest = compute_digest(record_type, record)
-    result = chain.anchor(record_type, record_id, digest)
+    report_stage(on_stage, "fingerprint", {"hash": digest.hex()})
+    result = chain.anchor(record_type, record_id, digest, on_sent=tx_sent_reporter(on_stage))
+    report_stage(on_stage, "mined", {
+        "block": result["block_number"], "gas_used": result["gas_used"],
+        "fee_wei": result["fee_wei"], "version": result["version"]})
     # The local log is a convenience copy only. Verification never reads it.
     conn.execute(
         "INSERT INTO integrity_log (record_type, record_id, version, record_hash, "

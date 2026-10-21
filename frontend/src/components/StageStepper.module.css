@@ -1,0 +1,205 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-4);
+  padding: var(--s-4) var(--s-5);
+  background: var(--panel);
+  border: 1px solid var(--rule);
+  border-radius: var(--r-md);
+}
+
+.card[data-phase='failed'] {
+  border-color: color-mix(in srgb, var(--tampered) 45%, var(--rule));
+}
+
+.head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--s-3);
+}
+
+.title {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: var(--s-1) var(--s-3);
+  font-size: var(--fs-15);
+}
+
+.subject {
+  font-weight: 650;
+}
+
+.verb {
+  color: var(--muted);
+  font-weight: 450;
+}
+
+.clock {
+  color: var(--muted);
+  font-size: var(--fs-12);
+}
+
+/* The stages are a TRUE sequence, so a numbered-style stepper is honest here. */
+.steps {
+  display: flex;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.step {
+  position: relative;
+  flex: 1 1 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  text-align: center;
+}
+
+.step:not(:first-child)::before {
+  content: '';
+  position: absolute;
+  top: 11px;
+  left: calc(-50% + 14px);
+  right: calc(50% + 14px);
+  height: 1.5px;
+  background: var(--rule-strong);
+  transition: background-color var(--t-med) var(--ease);
+}
+
+.step[data-step-status='done']:not(:first-child)::before,
+.step[data-step-status='active']:not(:first-child)::before,
+.step[data-step-status='failed']:not(:first-child)::before {
+  background: var(--ink);
+}
+
+.node {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 1.5px solid var(--rule-strong);
+  background: var(--panel);
+  color: var(--panel);
+  transition:
+    background-color var(--t-med) var(--ease),
+    border-color var(--t-med) var(--ease);
+}
+
+.step[data-step-status='done'] .node {
+  background: var(--ink);
+  border-color: var(--ink);
+}
+
+.step[data-step-status='active'] .node {
+  border-color: var(--ink);
+}
+
+.step[data-step-status='active'] .node::after {
+  content: '';
+  position: absolute;
+  inset: 4px;
+  border-radius: 50%;
+  background: var(--ink);
+  animation: breathe 1.6s ease-in-out infinite;
+}
+
+.step[data-step-status='failed'] .node {
+  background: var(--tampered);
+  border-color: var(--tampered);
+}
+
+@keyframes breathe {
+  0%,
+  100% {
+    transform: scale(0.7);
+    opacity: 0.55;
+  }
+  50% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.label {
+  color: var(--ink-2);
+  font-size: var(--fs-12);
+  font-weight: 560;
+  line-height: 1.25;
+}
+
+.step[data-step-status='pending'] .label {
+  color: var(--faint);
+}
+
+.detail {
+  color: var(--muted);
+  font-size: 11px;
+  min-height: 1.2em;
+}
+
+.foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--s-3);
+  padding-top: var(--s-3);
+  border-top: 1px solid var(--rule);
+}
+
+.line {
+  color: var(--ink-2);
+  font-size: var(--fs-13);
+}
+
+.link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--ink);
+  font-size: 12px;
+  text-decoration: underline;
+  text-decoration-color: var(--rule-strong);
+  text-underline-offset: 3px;
+}
+
+.link:hover {
+  text-decoration-color: var(--ink);
+}
+
+.failure {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1 1 100%;
+  padding: var(--s-3);
+  border-radius: var(--r-sm);
+  background: var(--tampered-bg);
+  color: var(--tampered);
+  font-size: var(--fs-13);
+}
+
+.failure span {
+  color: var(--ink-2);
+}
+
+.dismiss {
+  margin-left: auto;
+  padding: 4px 10px;
+  border: 1px solid var(--rule-strong);
+  border-radius: var(--r-sm);
+  background: transparent;
+  color: var(--ink-2);
+  font-size: var(--fs-13);
+}
+
+.dismiss:hover {
+  background: var(--panel-sunk);
+}

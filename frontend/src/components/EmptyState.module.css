@@ -1,0 +1,32 @@
+.empty {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-2);
+  padding: var(--s-7) var(--s-5);
+  max-width: 460px;
+}
+
+.title {
+  font-size: var(--fs-22);
+  font-weight: 650;
+  letter-spacing: -0.015em;
+}
+
+.lead {
+  color: var(--muted);
+}
+
+.steps {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-2);
+  margin: var(--s-4) 0 0;
+  padding-left: var(--s-5);
+  color: var(--ink-2);
+  font-size: var(--fs-13);
+}
+
+.steps li::marker {
+  color: var(--faint);
+  font-variant-numeric: tabular-nums;
+}

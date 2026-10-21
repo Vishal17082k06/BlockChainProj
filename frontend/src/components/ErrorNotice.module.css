@@ -1,0 +1,38 @@
+.notice {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-4);
+  padding: var(--s-4) var(--s-5);
+  border-radius: var(--r-md);
+  background: var(--tampered-bg);
+  box-shadow: inset 3px 0 0 var(--tampered);
+}
+
+.text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: var(--fs-13);
+  color: var(--ink-2);
+}
+
+.text strong {
+  color: var(--tampered);
+  font-size: var(--fs-15);
+}
+
+.retry {
+  flex: none;
+  padding: 7px var(--s-4);
+  border: 1px solid color-mix(in srgb, var(--tampered) 45%, transparent);
+  border-radius: var(--r-sm);
+  background: var(--panel);
+  color: var(--tampered);
+  font-size: var(--fs-13);
+  font-weight: 620;
+}
+
+.retry:hover {
+  background: #fff;
+}
