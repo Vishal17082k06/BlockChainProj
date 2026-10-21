@@ -8,6 +8,18 @@ compare it with the chain: match = untouched, mismatch = tampered.
 
 Source design: `Blockchain_Data_Integrity_Verification_Report.pdf` (v1.0).
 
+## Status
+
+| Part | State |
+|------|-------|
+| Contracts (single-record and Merkle), local and Sepolia deployment | Done |
+| Python integrity module, CLI demos, tamper detection | Done |
+| Witness web console (Local and Sepolia) | Done: runs end to end on the local chain |
+| Sepolia demo run with measured real cost (plan 7.5), Etherscan source verification (7.7, optional) | Not done |
+| Report and viva material (plan Phase 9) | Not done |
+
+Tests: Hardhat 34, Python 165, frontend 162. How to run everything: `docs/how-to-run.md`.
+
 ## Folder map
 
 | Path | What lives here |
@@ -17,7 +29,8 @@ Source design: `Blockchain_Data_Integrity_Verification_Report.pdf` (v1.0).
 | `docs/journal/` | One file per work step: what we did, why, commands, output, what we learned |
 | `experiments/` | Small standalone learning scripts (hash demo, toy blockchain) |
 | `blockchain/` | Hardhat project: contract, tests, deploy script (created in Phase 2) |
-| `python/` | Hashing, chain access, integrity service, CLI demo and pytest tests (Phase 5) |
+| `python/` | Hashing, chain access, integrity service, CLI demos, the FastAPI layer (`python/api/`) and pytest tests |
+| `frontend/` | The Witness console: a React + TypeScript web interface for the demo (see `frontend/README.md`) |
 
 Rule: `docs/` holds documentation only. Code lives in `experiments/`,
 `blockchain/` or `python/`.

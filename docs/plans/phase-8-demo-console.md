@@ -178,7 +178,7 @@ Install: react, react-dom, `@tanstack/react-query`, the two fontsource-variable 
 
 ### Task 9.7 (done): Attack lab
 
-Dark drawer opened from the inspector: Silent edit (text field), Silent delete, Restore earlier text, Cover my tracks (checkbox with a one-line explanation), result line, and automatic verify-all after each attack so the status flip is visible. Focus is trapped while open; Esc closes.
+Dark drawer opened from the inspector: Silent edit (text field), Silent delete, Restore earlier text, Cover my tracks (checkbox with a one-line explanation), result line, and a "Check against the chain" button after each attack (as built; the ledger already refreshes by itself after an attack, so the status flip is visible without it, and the button adds the timed verify-all). Focus is trapped while open; Esc closes.
 **Acceptance:** each action calls the right endpoint and the row flips status with the stamp animation; restore with no history shows the API's plain message.
 
 ### Task 9.8 (done): Polish and visual critique

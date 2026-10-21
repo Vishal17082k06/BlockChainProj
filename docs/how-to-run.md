@@ -122,7 +122,7 @@ from the deployer's account and its transaction count. Each command also writes 
 | # | What | Needs the node? | Command (from the folder shown) | Expected result |
 |---|------|-----------------|---------------------------------|-----------------|
 | 1 | Smart contract tests | No | `blockchain`: `npx hardhat test` | `34 passing` |
-| 2 | Python tests | **Yes** (and deploy) | `python`: `.\.venv\Scripts\python.exe -m pytest -q` | `67 passed` |
+| 2 | Python tests | **Yes** (and deploy) | `python`: `.\.venv\Scripts\python.exe -m pytest -q` | `165 passed` |
 | 3 | Tamper-detection demo | **Yes** (and deploy) | `python`: `.\.venv\Scripts\python.exe demo.py` | 9 numbered steps, see below |
 | 4 | Merkle batching demo | **Yes** (and deploy) | `python`: `.\.venv\Scripts\python.exe merkle_demo.py` | 5 steps, see below |
 | 5 | Gas: two key designs | No | `blockchain`: `npx hardhat run scripts/measure_gas.js` | a table of gas numbers |
@@ -133,6 +133,7 @@ from the deployer's account and its transaction count. Each command also writes 
 | 10 | Narrated tour of ONE note | **Yes** (and deploy) | repo root: `.\python\.venv\Scripts\python.exe experiments\life_of_a_note.py` | 8 stages, from database row to `TAMPERED` |
 | 11 | Check a deployment is our code | **Yes** (and deploy) | `python`: `.\.venv\Scripts\python.exe check_deployment.py` (add `--network sepolia`) | `MATCHES our compiled code` |
 | 12 | Register a hand-deployed contract | the network it is on | `python`: `.\.venv\Scripts\python.exe register_deployment.py <Contract> <address> <tx hash> --network sepolia` | `Registered. Wrote ...` (see `docs/remix-guide.md`) |
+| 14 | Frontend tests | No | `frontend`: `npm test` | `162 passed` |
 | 13 | Test values for Remix | No | repo root: `.\python\.venv\Scripts\python.exe experiments\remix_inputs.py` | hashes and a Merkle proof |
 
 Each "cd" is `cd "C:\A Projects\Personal\BlockChainProj\<folder>"`.

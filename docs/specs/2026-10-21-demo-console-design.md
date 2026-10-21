@@ -156,8 +156,9 @@ values returned by the API, never mocked.
 Sentence case, plain verbs, same name for an action throughout.
 Statuses: Verified, Tampered, Missing from database, Deleted (authorised), Not anchored yet,
 Inconsistent, Chain unreachable.
-Actions: "Save and anchor", "Edit and re-anchor", "Delete and record it", "Verify all",
-"Silent edit", "Silent delete", "Restore earlier text", "Cover my tracks".
+Actions: "Save and anchor", "Edit and re-anchor", "Delete and record it", "Verify all".
+Attack lab (as built): "Change the text", "Delete the row", "Roll back", "Cover the tracks",
+"Run the attack", "Check against the chain".
 Empty ledger: "No notes on {network} yet. Write one above and it will be anchored on the chain."
 Errors say what happened and what to do, with no apology, e.g. "Chain unreachable. Start the local
 node (npx hardhat node) and deploy the contracts, then try again."

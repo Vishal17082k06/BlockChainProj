@@ -106,6 +106,22 @@ where it came up (journal step) so you can find the context.
   or attacker would, from creating a record to detecting each kind of tampering.
   (Step 15)
 
+## The web console (Phase 8)
+
+- **API**: a program that waits for requests over HTTP and answers them. The browser cannot hash
+  records itself (the secret key and the canonical-JSON rules live in Python), so it asks the API,
+  which reuses the code we already tested. (Step 24)
+- **Stream (NDJSON)**: the API sends one small JSON line per stage of a write (saved, fingerprint,
+  sent, mined, done) as each really happens, instead of one answer at the end. (Step 24)
+- **Reducer**: a plain function `(old state, event) -> new state`. The progress card is a reducer fed
+  by the API's real events, so it can only show what truly happened. (Step 25)
+- **Seal check**: the console's signature view. The fingerprint the chain remembers and the one the
+  database now produces are drawn as two aligned rows with every differing character highlighted. (Step 25)
+- **Attack lab**: demo-only controls that change the database directly, bypassing the app and never
+  telling the chain, to show the chain noticing. They exist only in the demo console. (Step 24, 25)
+- **Contrast ratio (WCAG)**: a number for how readable text is against its background; 4.5 to 1 is
+  the pass mark for normal text. (Step 25)
+
 ## Blockchain basics (filled in from Phase 1 onward)
 
 - **Hash function**: takes any input and produces a fixed-size output (SHA-256:

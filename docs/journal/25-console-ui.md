@@ -28,7 +28,7 @@ like a generic dashboard.
   now produces, drawn as two aligned rows with every differing character highlighted ("63 of 64 characters differ").
 
 ## Tests
-Frontend: 158 tests (was 0). Python 165 and Hardhat 34 still pass. Mutation checks (break the code on purpose,
+Frontend: 162 tests (was 0); includes ChainPulse. Python 165 and Hardhat 34 still pass. Mutation checks (break the code on purpose,
 confirm a test fails): removing `key={network}` fails 2 tests; removing the Escape listener fails 1.
 
 ## Bugs found by running it for real (and fixed)

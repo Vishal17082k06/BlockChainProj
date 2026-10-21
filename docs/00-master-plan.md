@@ -4,7 +4,7 @@
 
 **Goal:** Anchor a keyed hash of a database record on a blockchain, and later verify from the database whether the record was tampered with.
 
-**Architecture:** A small Solidity contract (`IntegrityRegistry`) on a local Hardhat chain stores an append-only list of 32-byte HMAC hashes per record. Plain Python scripts hash a database row, anchor it, and on request recompute and compare. No web server, no UI: a command-line demo is enough.
+**Architecture:** A small Solidity contract (`IntegrityRegistry`) on a local Hardhat chain stores an append-only list of 32-byte HMAC hashes per record. Plain Python scripts hash a database row, anchor it, and on request recompute and compare. Phases 1 to 7 are command-line only; Phase 8 later added a thin FastAPI layer and a React web console (the "Witness" demo console) on top of the same tested Python code.
 
 **Tech Stack:** Solidity 0.8.x, Hardhat 2 (Node.js), Python 3.10+, web3.py, SQLite (Python built-in), pytest.
 
@@ -24,8 +24,8 @@
 
 | Cut | Reason |
 |-----|--------|
-| FastAPI server, routes, auth | Plumbing. A CLI demo shows the same behaviour. |
-| React badge | No blockchain learning. |
+| FastAPI server, routes, auth | Cut at first (a CLI shows the same behaviour). **Later added in Phase 8** as a thin, localhost-only demo API with no auth. |
+| React badge | Cut at first. **Later replaced by the Phase 8 demo console**, built for presenting the demo. |
 | PostgreSQL | SQLite ships with Python, zero setup. Swapping to Postgres later is only a connection change. Tamper demo uses the `sqlite3` command line. |
 | `pending_anchor` retry queue, `verification_history` table | Nice engineering, not blockchain. Written up as limitations/future work in the report. |
 | Multiple record types | We protect `note` only; `RECORD_SPECS` is a dict so adding `calendarevent` is one entry. |

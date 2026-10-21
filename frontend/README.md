@@ -30,7 +30,7 @@ npm run dev        # http://127.0.0.1:5173, /api is proxied to port 8000
 ## Check it
 
 ```powershell
-npm test           # 158 tests
+npm test           # 162 tests
 npx tsc --noEmit   # strict type check
 ```
 
