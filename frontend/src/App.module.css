@@ -31,7 +31,9 @@
 .inspector {
   position: sticky;
   top: var(--s-5);
-  max-height: calc(100vh - 120px);
+  /* The panel starts about 120px down (header, network banner, padding) and the fixed activity bar covers the
+     bottom 44px, so leave room for both plus a small gap. Otherwise its action buttons hide behind the bar. */
+  max-height: calc(100vh - 120px - 44px - 24px);
   overflow-y: auto;
   border-radius: var(--r-md);
 }
